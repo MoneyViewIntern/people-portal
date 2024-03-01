@@ -38,7 +38,7 @@ const Navbar = () => {
                 {isSignedIn && isLoaded &&(
                     <>
                     <Button variant="ghost" size="sm" asChild>
-                        <Link href="/user">
+                        <Link href="/welcome">
                             Enter Portal
                         </Link>
                     </Button>

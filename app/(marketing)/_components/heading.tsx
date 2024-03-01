@@ -22,7 +22,7 @@ export const Heading =()=>{
             )}
             {isSignedIn && isLoaded && (
                 <Button asChild>
-                    <Link href="/user">
+                    <Link href="/welcome">
                         Enter Portal
                         <ArrowRight className="h-4 w-4 ml-2" />
                     </Link>

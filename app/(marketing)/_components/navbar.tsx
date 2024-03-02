@@ -22,18 +22,13 @@ const Navbar = () => {
                     <Spinner />
                 )}
                 {!isSignedIn && isLoaded && (
-                    <>
+                
                     <SignInButton mode="modal">
                         <Button variant="ghost" size="sm">
-                            Log in
+                            Sign In
                         </Button>
                     </SignInButton>
-                    <SignUpButton mode="modal">
-                        <Button size="sm">
-                            Get Portal
-                        </Button>
-                    </SignUpButton>
-                    </>
+                    
                 )}
                 {isSignedIn && isLoaded &&(
                     <>

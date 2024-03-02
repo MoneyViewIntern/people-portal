@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import {dark} from "@clerk/themes";
+import { ModalProvider } from "@/components/providers/modal-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -32,8 +33,11 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider appearance={{
-      baseTheme: dark
-    }}>
+      baseTheme: dark,
+      elements: {
+        footer: "hidden",
+      }
+      }}>
             <html lang="en" suppressHydrationWarning>
               <body className={inter.className}>
               <ThemeProvider
@@ -43,6 +47,7 @@ export default function RootLayout({
                       disableTransitionOnChange
                       storageKey="people-portal-theme-2"
                     >
+                    <ModalProvider />
                   {children}
                 </ThemeProvider>
                 

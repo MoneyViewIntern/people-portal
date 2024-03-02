@@ -3,7 +3,7 @@ import { Spinner } from "@/components/spinner";
 import {Button} from "@/components/ui/button"
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useUser, SignUpButton } from "@clerk/nextjs";
+import { useUser, SignInButton } from "@clerk/nextjs";
 export const Heading =()=>{
     const {isSignedIn, user, isLoaded}= useUser();
     return(
@@ -29,12 +29,12 @@ export const Heading =()=>{
                 </Button>
             )}
             {!isSignedIn && isLoaded && (
-                <SignUpButton mode="modal">
+                <SignInButton mode="modal">
                     <Button>
-                        Get People Portal
+                        Sign In to People Portal
                         <ArrowRight className="h-4 w-4 ml-2" />
                     </Button>
-                </SignUpButton>
+                </SignInButton>
             )}
         </div>
     )

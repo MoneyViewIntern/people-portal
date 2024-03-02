@@ -4,6 +4,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel,
         DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronsLeftRight } from "lucide-react";
 import { useUser, SignOutButton } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const UserItem = () => {
     const {user}= useUser();
@@ -44,7 +46,11 @@ const UserItem = () => {
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild className="w-full cursor-pointer text-muted-foreground">
-                <SignOutButton> Log out </SignOutButton>
+                <Button variant={"ghost"} asChild>
+                   <SignOutButton>
+                   <Link href="/">Sign Out</Link>
+                    </SignOutButton> 
+                </Button>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

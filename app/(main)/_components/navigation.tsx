@@ -11,6 +11,7 @@ import Item from "./item";
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 import { Navbar } from "./navbar";
+import SidebarItem from "./sidebar-item";
 const Navigation = () => {
     const router = useRouter();
     const pathname = usePathname();
@@ -39,8 +40,8 @@ const Navigation = () => {
         if(!isResizingRef.current)return;
 
         let newWidth = e.clientX;
-        if(newWidth<240) newWidth=240;
-        if(newWidth>480) newWidth=480;
+        if(newWidth<340) newWidth=340;
+        if(newWidth>540) newWidth=540;
 
         if(sidebarRef.current && navbarRef.current){
             sidebarRef.current.style.width = `${newWidth}px`;
@@ -66,11 +67,9 @@ const Navigation = () => {
             if(sidebarRef.current && navbarRef.current){
                 setIsCollapsed(false);
                 setIsResetting(true);
-                sidebarRef.current.style.width= isMobile ? "100%" : "240px";
-                // navbarRef.current.style.setProperty("width", isMobile?"0":"calc(100%-240px)");
-                navbarRef.current.style.width= isMobile ? "0" : "calc(100% - 240px)";
-                // navbarRef.current.style.setProperty("left", isMobile? "100%":"240px");
-                navbarRef.current.style.left= isMobile ? "100%" : "240px";
+                sidebarRef.current.style.width= isMobile ? "100%" : "340px";
+                navbarRef.current.style.width= isMobile ? "0" : "calc(100% - 340px)";
+                navbarRef.current.style.left= isMobile ? "100%" : "340px";
                 setTimeout(()=>setIsResetting(false), 300);
             }
 
@@ -80,9 +79,7 @@ const Navigation = () => {
                 setIsCollapsed(true);
                 setIsResetting(true);
                 sidebarRef.current.style.width= "0";
-                // navbarRef.current.style.setProperty("width", isMobile?"0":"calc(100%-240px)");
                 navbarRef.current.style.width="100%";
-                // navbarRef.current.style.setProperty("left", isMobile? "100%":"240px");
                 navbarRef.current.style.left= "0";
                 setTimeout(()=>setIsResetting(false), 300);
             }
@@ -103,11 +100,11 @@ const Navigation = () => {
                 className={cn("h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition", isMobile && "opacity-100")}>
                     <ChevronsLeft className="h-6 w-6" />
                 </div>
-                <div>
+                <div className="h-full space-y-2">
                     <UserItem />
                     <Item label="Search" icon= {Search} isSearch onClick={handleSearch} />
                     <Item label="Settings" icon= {Settings} onClick={handleSettings}  />
-                    {/* <SettingsModal /> */}
+                    <SidebarItem />
                 </div>
                 <div
                 onMouseDown={handleMouseDown}

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkProvider } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import {dark} from "@clerk/themes";
+import { dark } from "@clerk/themes";
 import { ModalProvider } from "@/components/providers/modal-provider";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,28 +32,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider appearance={{
-      baseTheme: dark,
-      elements: {
-        footer: "hidden",
-      }
-      }}>
-            <html lang="en" suppressHydrationWarning>
-              <body className={inter.className}>
-              <ThemeProvider
-                      attribute="class"
-                      defaultTheme="system"
-                      enableSystem
-                      disableTransitionOnChange
-                      storageKey="people-portal-theme-2"
-                    >
-                    <ModalProvider />
-                  {children}
-                </ThemeProvider>
-                
-              </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        elements: {
+          footer: "hidden",
+        },
+      }}
+    >
+      <html lang="en" suppressHydrationWarning>
+        <body className={inter.className}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            storageKey="people-portal-theme-2"
+          >
+            <ModalProvider />
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
     </ClerkProvider>
-    
   );
 }

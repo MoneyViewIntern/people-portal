@@ -21,7 +21,7 @@ export const SearchCommand = () => {
   const toggle = useSearch((store) => store.toggle);
   const isOpen = useSearch((store) => store.isOpen);
   const onClose = useSearch((store) => store.onClose);
-  
+
   //preventing rendering on server side so that shadcn command component does not cause hydration error
   useEffect(() => {
     setIsMounted(true);
@@ -50,9 +50,7 @@ export const SearchCommand = () => {
       <CommandInput placeholder={`Search ${user?.username}'s Portal...`} />
       <CommandList>
         <CommandEmpty>No results found</CommandEmpty>
-        <CommandGroup heading="Users">
-          Test
-        </CommandGroup>
+        <CommandGroup heading="Users">Test</CommandGroup>
       </CommandList>
     </CommandDialog>
   );

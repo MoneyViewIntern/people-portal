@@ -13,7 +13,5 @@ export const ModalProvider = () => {
     return null;
   }
 
-  return (
-    <SettingsModal />
-  );
+  return <SettingsModal />;
 };

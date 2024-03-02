@@ -1,23 +1,16 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from "lucide-react";
+import { ChevronsLeft, MenuIcon, Search, Settings} from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { ElementRef, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { useEffect } from "react";
 import UserItem from "./user-item";
-// import { useMutation} from "convex/react";
-// import { api } from "@/convex/_generated/api";
 import Item from "./item";
-// import { toast } from "sonner";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-// import DocumentList from "./document-list";
-// import { TrashBox } from "./trash-box";
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 import { Navbar } from "./navbar";
-// import { SettingsModal } from "@/components/modals/settings-modal";
 const Navigation = () => {
     const router = useRouter();
     const pathname = usePathname();
@@ -36,7 +29,6 @@ const Navigation = () => {
     useEffect(() => {
       if(isMobile) collapse();
       else resetWidth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMobile]);
 
     useEffect(() => {

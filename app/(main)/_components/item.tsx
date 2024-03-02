@@ -1,15 +1,6 @@
 "use client";
-import { DropdownMenu, DropdownMenuItem, DropdownMenuSeparator,
-    DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-// import { api } from "@/convex/_generated/api";
-// import { Id } from "@/convex/_generated/dataModel";
-// import { cn } from "@/lib/utils";
-// import { useUser } from "@clerk/clerk-react";
-// import { useMutation } from "convex/react";
-import { ChevronDown, ChevronRight, LucideIcon, MoreHorizontal, Plus, Trash } from "lucide-react";
-import router, { useRouter } from "next/router";
-// import { toast } from "sonner";
+import {LucideIcon } from "lucide-react";
 interface ItemProps{
     isSearch?:boolean;
     label: string;

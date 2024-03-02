@@ -1,3 +1,4 @@
+//clerk default middleware
 import { authMiddleware } from "@clerk/nextjs";
  
 export default authMiddleware({

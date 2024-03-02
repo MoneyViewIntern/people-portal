@@ -3,7 +3,6 @@
 import { Spinner } from "@/components/spinner";
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { SearchCommand } from "@/components/search-command";
 
 const MainLayout = ({children}:{children : React.ReactNode;}) => {
     const {isSignedIn, isLoaded}= useUser();

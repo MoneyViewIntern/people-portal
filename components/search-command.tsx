@@ -11,6 +11,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "./ui/command";
 
 export const SearchCommand = () => {
@@ -50,7 +51,17 @@ export const SearchCommand = () => {
       <CommandInput placeholder={`Search ${user?.username}'s Portal...`} />
       <CommandList>
         <CommandEmpty>No results found</CommandEmpty>
-        <CommandGroup heading="Users">Test</CommandGroup>
+        <CommandGroup heading="Users">
+          <CommandItem>
+            <span>User</span>
+          </CommandItem>
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="Tags">
+          <CommandItem>
+            <span>Developer</span>
+          </CommandItem>
+        </CommandGroup>
       </CommandList>
     </CommandDialog>
   );

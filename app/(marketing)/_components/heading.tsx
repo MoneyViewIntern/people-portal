@@ -3,9 +3,13 @@ import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@/hooks/use-auth";
 import { useUser, SignInButton } from "@clerk/nextjs";
+import { useAuthContext } from "@/context/auth-context";
 export const Heading = () => {
-  const { isSignedIn, user, isLoaded } = useUser();
+  // const { isSignedIn, user, isLoaded } = useUser();
+  const {isSignedIn} = useAuthContext();
+  const handleAuth = useAuth().onOpen;
   return (
     <div className=" max-w-3xl space-y-4">
       <h1 className="font-bold text-3xl sm:text-5xl md:text-6xl ">
@@ -16,12 +20,7 @@ export const Heading = () => {
         People Portal is a collection of all the employee data <br />
         under one roof.
       </h3>
-      {!isLoaded && (
-        <div className="w-full flex items-center justify-center">
-          <Spinner size="lg" />
-        </div>
-      )}
-      {isSignedIn && isLoaded && (
+      {isSignedIn && (
         <Button asChild>
           <Link href="/welcome">
             Enter Portal
@@ -29,13 +28,11 @@ export const Heading = () => {
           </Link>
         </Button>
       )}
-      {!isSignedIn && isLoaded && (
-        <SignInButton mode="modal">
-          <Button>
+      {!isSignedIn && (
+          <Button onClick={handleAuth}>
             Sign In to People Portal
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
-        </SignInButton>
       )}
     </div>
   );

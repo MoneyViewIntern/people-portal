@@ -1,10 +1,10 @@
-//clerk default middleware
-import { authMiddleware } from "@clerk/nextjs";
+// //clerk default middleware
+// import { authMiddleware } from "@clerk/nextjs";
 
-export default authMiddleware({
-  publicRoutes: ["/"],
-});
+// export default authMiddleware({
+//   publicRoutes: ["/", "/login"],
+// });
 
-export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-};
+// export const config = {
+//   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+// };

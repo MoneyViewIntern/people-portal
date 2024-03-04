@@ -108,6 +108,7 @@ const Navigation = () => {
           <UserItem />
           <Item label="Search" icon={Search} isSearch onClick={handleSearch} />
           <Item label="Settings" icon={Settings} onClick={handleSettings} />
+
           <SidebarItem />
         </div>
         <div

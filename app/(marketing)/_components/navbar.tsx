@@ -7,10 +7,13 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/spinner";
 import Link from "next/link";
-
+import { useAuthContext } from "@/context/auth-context";
+import { useAuth } from "@/hooks/use-auth";
 const Navbar = () => {
   const { isSignedIn, isLoaded } = useUser();
   const scrolled = useScrollTop();
+  const handleAuth = useAuth().onOpen;
+  // const {isSignedIn}= useAuthContext();
   return (
     <div
       className={cn(
@@ -20,15 +23,18 @@ const Navbar = () => {
     >
       <Logo />
       <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
-        {!isLoaded && <Spinner />}
-        {!isSignedIn && isLoaded && (
-          <SignInButton mode="modal">
+        {!isSignedIn && (
+          <SignInButton>
             <Button variant="outline" size="sm">
               Sign In
             </Button>
           </SignInButton>
+          // For using auth
+        //   <Button onClick={handleAuth} variant="outline" size="sm">
+        //   Sign In
+        // </Button>
         )}
-        {isSignedIn && isLoaded && (
+        {isSignedIn && (
           <>
             <Button variant="ghost" size="sm" asChild>
               <Link href="/welcome">Enter Portal</Link>

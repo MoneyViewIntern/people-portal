@@ -55,11 +55,26 @@ export const SearchCommand = () => {
           <CommandItem>
             <span>User</span>
           </CommandItem>
+          <CommandItem>
+            <span>Us</span>
+          </CommandItem>
+          <CommandItem>
+            <span>Use</span>
+          </CommandItem>
+          <CommandItem>
+            <span>Uer</span>
+          </CommandItem>
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="Tags">
           <CommandItem>
             <span>Developer</span>
+          </CommandItem>
+          <CommandItem>
+            <span>Developer</span>
+          </CommandItem>
+          <CommandItem>
+            <span>User</span>
           </CommandItem>
         </CommandGroup>
       </CommandList>

@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const SidebarItem = () => {
+const SidebarCard = () => {
   return (
     <div className=" h-full w-full">
       <Card className=" m-3 dark:bg-[#1a1919]">
@@ -23,4 +23,4 @@ const SidebarItem = () => {
     </div>
   );
 };
-export default SidebarItem;
+export default SidebarCard;

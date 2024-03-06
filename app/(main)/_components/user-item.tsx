@@ -12,9 +12,14 @@ import { ChevronsLeftRight } from "lucide-react";
 import { useUser, SignOutButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAuthContext } from "@/context/auth-context";
 
 const UserItem = () => {
-  const { user } = useUser();
+  const {signOut} = useAuthContext();
+
+  // Hardcoded username and profile url
+  const USERNAME= "Username";
+  const IMGURL = "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
 
   return (
     <DropdownMenu>
@@ -25,10 +30,10 @@ const UserItem = () => {
         >
           <div className="gap-x-3 flex items-center max-w-[150px]">
             <Avatar className="h-5 w-5">
-              <AvatarImage src={user?.imageUrl} />
+              <AvatarImage src={IMGURL} />
             </Avatar>
             <span className="text-start font-medium line-clamp-1">
-              {user?.username}&apos;s Portal
+              {USERNAME}&apos;s Portal
             </span>
           </div>
           <ChevronsLeftRight className="rotate-90 ml-2 text-muted-foreground h-4 w-4" />
@@ -44,11 +49,11 @@ const UserItem = () => {
           <div className="flex items-center gap-x-2">
             <div className="rounded-md p-1">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={user?.imageUrl} />
+                <AvatarImage src={IMGURL} />
               </Avatar>
             </div>
             <div className="space-y-1">
-              <p className="text-sm line-clamp-1">Hi {user?.username}!</p>
+              <p className="text-sm line-clamp-1">Hi {USERNAME}!</p>
             </div>
           </div>
         </div>
@@ -57,10 +62,8 @@ const UserItem = () => {
           asChild
           className="w-full cursor-pointer text-muted-foreground"
         >
-          <Button variant={"ghost"} asChild>
-            <SignOutButton>
+          <Button onClick={signOut} variant={"ghost"} asChild>
               <Link href="/">Sign Out</Link>
-            </SignOutButton>
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>

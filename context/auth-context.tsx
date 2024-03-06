@@ -1,45 +1,45 @@
-// context/AuthContext.tsx
-import { createContext, useContext, useState } from 'react';
-import {genSaltSync, hashSync} from "bcrypt-ts"
+"use client";
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 interface AuthContextType {
-  signIn: (username: string, password: string) => Promise<void>;
+  isSignedIn: boolean;
+  setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  signOut : ()=>void;
 }
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+interface Props{
+    children : React.ReactNode
+}
+export const AuthProvider: React.FC<Props> = ({children}) => {
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 
-export const AuthProvider = ({children}: Readonly<{children: React.ReactNode;}>) => 
-{
-  const signIn = async (username: string, password: string) => {
-    const hashedPassword = await hashPassword(password);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await axios.get('http://localhost:8080/isSignedIn');
+//         setIsSignedIn(response.data.isSignedIn);
+//       } catch (error) {
+//         console.error('Error fetching isSignedIn:', error);
+//       }
+//     };
 
-    try {
-      const response = await axios.post('http://localhost:8080/login', {
-        username,
-        password: hashedPassword
-      });
-      if (response.status === 200) {
-        // Handle successful sign-in
-      } else {
-        // Handle error
-      }
-    } catch (error) {
-      console.error('Error signing in:', error);
-      // Handle error
+//     fetchData();
+//   }, []);
+    useEffect(()=>{
+        setIsSignedIn(true);
+    }, []);
+    const signOut = ()=>{
+      setIsSignedIn(false);
     }
-  };
-
-  const hashPassword = async (password: string) => {
-    const salt = genSaltSync(10);
-    const hashedPassword = hashSync(password, salt);
-    return hashedPassword;
-  };
-
-  return <AuthContext.Provider value={{ signIn }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ isSignedIn, setIsSignedIn, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useAuth = () => {
+export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');

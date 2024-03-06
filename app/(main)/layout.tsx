@@ -5,16 +5,10 @@ import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Navigation from "./_components/navigation";
 import { SearchCommand } from "@/components/search-command";
+import { useAuthContext } from "@/context/auth-context";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isSignedIn, isLoaded } = useUser();
-  if (!isLoaded) {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <Spinner size="lg" />
-      </div>
-    );
-  }
+  const {isSignedIn} = useAuthContext();
   if (!isSignedIn) {
     return redirect("/");
   }

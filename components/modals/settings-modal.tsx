@@ -4,16 +4,18 @@ import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { useSettings } from "@/hooks/use-settings";
 import { Label } from "@/components/ui/label";
 import { ModeToggle } from "@/components/mode-toggle";
-import { SignOutButton, UserButton, UserProfile} from "@clerk/nextjs";
+import { SignOutButton} from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/context/auth-context";
 export const SettingsModal = () => {
   const settings = useSettings();
-  const router = useRouter();
+
+  const {signOut}= useAuthContext();
+
   const handleLogout = () => {
     settings.onClose();
-    router.push("/");
+    signOut();
   };
   return (
     <Dialog open={settings.isOpen} onOpenChange={settings.onClose}>
@@ -38,9 +40,9 @@ export const SettingsModal = () => {
             </span>
           </div>
           <Button onClick={handleLogout} variant="ghost" size="icon">
-            <SignOutButton>
+            {/* <SignOutButton> */}
               <LogOut className="h-[1.2rem] w-[1.2rem] scale-100" />
-            </SignOutButton>
+            {/* </SignOutButton> */}
           </Button>
         </div>
       </DialogContent>

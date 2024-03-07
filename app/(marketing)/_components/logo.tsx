@@ -19,7 +19,7 @@ const Logo = () => {
         src="images/logo-dark.svg"
         height="50"
         width="50"
-        className="hidden dark:block"
+        className="hidden dark:block filter grayscale"
         alt="Logo"
       />
       <p className={cn("font-bold", font.className)}>PeoplePortal</p>

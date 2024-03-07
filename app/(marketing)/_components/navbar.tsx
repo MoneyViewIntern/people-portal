@@ -9,10 +9,12 @@ import { Spinner } from "@/components/spinner";
 import Link from "next/link";
 import { useAuthContext } from "@/context/auth-context";
 import { useAuth } from "@/hooks/use-auth";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 const Navbar = () => {
   const { isSignedIn, isLoaded } = useUser();
   const scrolled = useScrollTop();
   const handleAuth = useAuth().onOpen;
+  const IMGURL = "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png";
   // const {isSignedIn}= useAuthContext();
   return (
     <div
@@ -36,10 +38,12 @@ const Navbar = () => {
         )}
         {isSignedIn && (
           <>
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="outline" size="sm" asChild>
               <Link href="/welcome">Enter Portal</Link>
             </Button>
-            <UserButton afterSignOutUrl="/" />
+            <Avatar className="h-9 w-9">
+              <AvatarImage src={IMGURL} />
+            </Avatar>
           </>
         )}
         <ModeToggle />

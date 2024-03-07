@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon, Search, Settings } from "lucide-react";
+import { ChevronsLeft, MenuIcon, Search, Settings, User } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { ElementRef, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -13,7 +13,8 @@ import { useSettings } from "@/hooks/use-settings";
 import { Navbar } from "./navbar";
 import { useAuthContext } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
-import SidebarCard from "./sidebar-card";
+import UserCard from "./user-card";
+import { useProfile } from "@/hooks/use-profile";
 const Navigation = () => {
   const {signOut} = useAuthContext();
   const router = useRouter();
@@ -27,6 +28,7 @@ const Navigation = () => {
 
   const handleSearch = useSearch().onOpen;
   const handleSettings = useSettings().onOpen;
+  const handleProfile = useProfile().onOpen;
 
   useEffect(() => {
     if (isMobile) collapse();
@@ -111,8 +113,9 @@ const Navigation = () => {
           <UserItem />
           <Item label="Search" icon={Search} isSearch onClick={handleSearch} />
           <Item label="Settings" icon={Settings} onClick={handleSettings} />
+          <Item label="Profile" icon={User} onClick={handleProfile} />
 
-          <SidebarCard />
+          <UserCard />
         </div>
         <div
           onMouseDown={handleMouseDown}

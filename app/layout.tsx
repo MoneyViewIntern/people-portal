@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { dark } from "@clerk/themes";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { AuthProvider } from "@/context/auth-context";
+import {Toaster} from "sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -44,6 +45,7 @@ export default function RootLayout({
               disableTransitionOnChange
               storageKey="people-portal-theme-2"
             >
+              <Toaster richColors position="bottom-center" />
               <ModalProvider />
               {children}
             </ThemeProvider>

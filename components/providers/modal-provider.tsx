@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { SettingsModal } from "@/components/modals/settings-modal";
 import LoginModal from "@/components/modals/login-modal";
+import { ProfileModal } from "../modals/profile-modal";
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
   return(
     <>
     <SettingsModal />
+    <ProfileModal />
     <LoginModal />
   </>
   )

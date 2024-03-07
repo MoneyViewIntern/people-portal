@@ -46,7 +46,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </Label>
             <Input
               id="username"
-              placeholder="username"
+              placeholder="Username"
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isLoading}
@@ -60,7 +60,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Input
               id="password"
               type="password"
-              placeholder="password"
+              placeholder="Password"
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isLoading}
@@ -71,7 +71,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Username
+            Sign In
           </Button>
         </div>
       </form>

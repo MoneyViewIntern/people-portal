@@ -1,25 +1,18 @@
 "use client";
 
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "../ui/button";
 import {
   Download,
-  Edit,
   Facebook,
-  LogOut,
   Pen,
-  Pencil,
   Slack,
   Twitter,
 } from "lucide-react";
-import { useAuthContext } from "@/context/auth-context";
 import { useProfile } from "@/hooks/use-profile";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Separator } from "../ui/seperator";
 import ProfileItem from "../profile-item";
-import { toast } from "sonner";
 export const ProfileModal = () => {
   const profile = useProfile();
   const IMGURL =

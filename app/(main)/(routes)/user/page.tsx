@@ -1,9 +1,6 @@
 "use client";
 import { useCenteredTree } from "@/utils/centeredTree";
 import Organizationchart from "@/components/chart/ChartContainer"
-import "nextjs-orgchart/dist/ChartContainer.css";
-import "nextjs-orgchart/dist/ChartNode.css";
-import Tree from "react-d3-tree"
 const orgChart = {
   name: "CEO",
   children: [
@@ -85,7 +82,7 @@ const UserPage = () => {
           data={orgChart}
           onNodeClick={handleClick}
         /> */}
-        <Organizationchart datasource={ds}/>
+        {/* <Organizationchart datasource={ds}/> */}
       </div>
     </div>
   );

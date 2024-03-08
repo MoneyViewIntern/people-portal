@@ -241,7 +241,7 @@ const ChartContainer = forwardRef(
     };
 
     const changeHierarchy = async (draggedItemData, dropTargetId) => {
-      await dsDigger.removeNode(draggedItemData.id);
+      await dsDigger.removeNode(draggedItemData.username);
       await dsDigger.addChildren(dropTargetId, draggedItemData);
       setDS({ ...dsDigger.ds });
     };
@@ -298,7 +298,7 @@ const ChartContainer = forwardRef(
     return (
       <div
         ref={container}
-        className={"orgchart-container " + containerClass}
+        className={"orgchart-container" + containerClass}
         onWheel={zoom ? zoomHandler : undefined}
         onMouseUp={pan && panning ? panEndHandler : undefined}
       >

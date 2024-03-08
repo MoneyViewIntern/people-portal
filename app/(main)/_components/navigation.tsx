@@ -71,9 +71,9 @@ const Navigation = () => {
     if (sidebarRef.current && navbarRef.current) {
       setIsCollapsed(false);
       setIsResetting(true);
-      sidebarRef.current.style.width = isMobile ? "100%" : "340px";
-      navbarRef.current.style.width = isMobile ? "0" : "calc(100% - 340px)";
-      navbarRef.current.style.left = isMobile ? "100%" : "340px";
+      sidebarRef.current.style.width = isMobile ? "100%" : "440px";
+      navbarRef.current.style.width = isMobile ? "0" : "calc(100% - 440px)";
+      navbarRef.current.style.left = isMobile ? "100%" : "440px";
       setTimeout(() => setIsResetting(false), 300);
     }
   };
@@ -113,7 +113,7 @@ const Navigation = () => {
           <Item label="Search" icon={Search} isSearch onClick={handleSearch} />
           <Item label="Settings" icon={Settings} onClick={handleSettings} />
           <Item label="Profile" icon={User} onClick={handleProfile} />
-          <div>
+          <div className="pt-3">
           <UserCard />
           </div>
         </div>

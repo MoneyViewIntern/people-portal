@@ -18,8 +18,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 //     event.preventDefault();
 //     setIsLoading(true);
 //     try {
-//         const token = jwt.sign({ username, password }, 'your-secret-key');
-//         const response = await axios.post('http://localhost:8080/login', { token });
+//         const response = await axios.post('http://localhost:8080/login', { username, password});
 //         console.log('Server response:', response.data);
 //       } catch (error) {
 //         console.error('Error:', error);

@@ -74,7 +74,7 @@ const UserPage = () => {
   return (
     <div className="h-full w-full flex flex-auto items-center justify-center">
       <div ref={containerRef} className="h-full w-full">
-        <Tree
+        {/* <Tree
           hasInteractiveNodes
           initialDepth={2}
           pathFunc={"step"}
@@ -84,8 +84,8 @@ const UserPage = () => {
           enableLegacyTransitions={true}
           data={orgChart}
           onNodeClick={handleClick}
-        />
-        {/* <Organizationchart datasource={ds}/> */}
+        /> */}
+        <Organizationchart datasource={ds}/>
       </div>
     </div>
   );

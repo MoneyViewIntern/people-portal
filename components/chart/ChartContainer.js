@@ -76,10 +76,10 @@ const ChartContainer = forwardRef(
 
     const attachRel = (data, flags) => {
       data.relationship =
-        flags + (data.children && data.children.length > 0 ? 1 : 0);
-      if (data.children) {
-        data.children.forEach(function (item) {
-          attachRel(item, "1" + (data.children.length > 1 ? 1 : 0));
+        flags + (data.reportee && data.reportee.length > 0 ? 1 : 0);
+      if (data.reportee) {
+        data.reportee.forEach(function (item) {
+          attachRel(item, "1" + (data.reportee.length > 1 ? 1 : 0));
         });
       }
       return data;
@@ -90,7 +90,7 @@ const ChartContainer = forwardRef(
       setDS(datasource);
     }, [datasource]);
 
-    const dsDigger = new JSONDigger(datasource, "id", "children");
+    const dsDigger = new JSONDigger(datasource, "username", "reportee");
 
     const clickChartHandler = (event) => {
       if (!event.target.closest(".oc-node")) {

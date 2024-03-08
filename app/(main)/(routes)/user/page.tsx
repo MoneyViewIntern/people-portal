@@ -2,69 +2,56 @@
 import { useCenteredTree } from "@/utils/centeredTree";
 import Organizationchart from "@/components/chart/ChartContainer"
 import Tree from "react-d3-tree"
-const orgChart = {
-  name: "CEO",
-  children: [
-    {
-      name: "Manager",
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-      children: [
-        {
-          name: "Foreman",
-          children: [
-            {
-              name: "Worker",
-            },
-          ],
-        },
-        {
-          name: "Foreman",
+// const ds = {
+//   username: "n1",
+//   name: "Lao Lao",
+//   title: "general manager",
+//   children: [
+//     { username: "n2", name: "Bo Miao", title: "department manager" },
+//     {
+//       username: "n3",
+//       name: "Su Miao",
+//       title: "department manager",
+//       children: [
+//         { username: "n4", name: "Tie Hua", title: "senior engineer" },
+//         {
+//           username: "n5",
+//           name: "Hei Hei",
+//           title: "senior engineer",
+//           children: [
+//             { username: "n6", name: "Dan Dan", title: "engineer" },
+//             { username: "n7", name: "Xiang Xiang", title: "engineer" }
+//           ]
+//         },
+//         { username: "n8", name: "Pang Pang", title: "senior engineer" }
+//       ]
+//     },
+//     { username: "n9", name: "Hong Miao", title: "department manager" },
+//     {
+//       username: "n10",
+//       name: "Chun Miao",
+//       title: "department manager",
+//       children: [{ username: "n11", name: "Yue Yue", title: "senior engineer" }]
+//     }
+//   ]
+// };
 
-          children: [
-            {
-              name: "Worker",
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
-const ds = {
-  username: "n1",
-  name: "Lao Lao",
-  title: "general manager",
-  children: [
-    { username: "n2", name: "Bo Miao", title: "department manager" },
-    {
-      username: "n3",
-      name: "Su Miao",
-      title: "department manager",
-      children: [
-        { username: "n4", name: "Tie Hua", title: "senior engineer" },
-        {
-          username: "n5",
-          name: "Hei Hei",
-          title: "senior engineer",
-          children: [
-            { username: "n6", name: "Dan Dan", title: "engineer" },
-            { username: "n7", name: "Xiang Xiang", title: "engineer" }
-          ]
-        },
-        { username: "n8", name: "Pang Pang", title: "senior engineer" }
-      ]
-    },
-    { username: "n9", name: "Hong Miao", title: "department manager" },
-    {
-      username: "n10",
-      name: "Chun Miao",
-      title: "department manager",
-      children: [{ username: "n11", name: "Yue Yue", title: "senior engineer" }]
-    }
-  ]
-};
+const apiCall=async ()=>{
+  const resp = await axios.get("http://localhost:8080/api/user/satwik");
+  
+  return resp.data;
+}
 
 const UserPage = () => {
+  const [ds,setDs]=useState({});
+  useEffect( ()=>{
+    apiCall().then(res=>setDs(res));
+    // setDs(resp);
+    console.log(ds);
+  },[])
   const [dimensions, translate, containerRef] = useCenteredTree();
   const handleClick = () => {
     console.log("node clicked");

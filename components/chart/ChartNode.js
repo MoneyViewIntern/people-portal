@@ -88,6 +88,7 @@ const ChartNode = ({
   const addArrows = e => {
     const node = e.target.closest("li");
     const parent = node.parentNode.closest("li");
+    console.log(parent);
     const isAncestorsCollapsed =
       node && parent
         ? parent.firstChild.classList.contains("hidden")
@@ -257,7 +258,7 @@ const ChartNode = ({
                 )}
               {datasource.name}
             </div>
-            <div className="oc-content">{datasource.title}</div>
+            <div className="oc-content">{datasource.designation}-{datasource.level}</div>
           </>
         )}
         {collapsible &&
@@ -315,9 +316,9 @@ const ChartNode = ({
             />
           )}
       </div>
-      {datasource.children && datasource.children.length > 0 && (
+      {datasource.reportee && datasource.reportee.length > 0 && (
         <ul className={isChildrenCollapsed ? "hidden" : ""}>
-          {datasource.children.map(node => (
+          {datasource.reportee.map(node => (
             <ChartNode
               
               datasource={node}

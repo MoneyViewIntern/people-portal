@@ -26,10 +26,10 @@ const UserItem = () => {
       <DropdownMenuTrigger asChild>
         <div
           role="button"
-          className="flex items-center text-sm py  -6 p-3 w-full hover:bg-primary/5"
+          className="flex items-center text-md py-6 p-3 w-full hover:bg-primary/5"
         >
-          <div className="gap-x-3 flex items-center max-w-[150px]">
-            <Avatar className="h-5 w-5">
+          <div className="gap-x-3 flex items-center max-w-[250px]">
+            <Avatar className="h-9 w-9">
               <AvatarImage src={IMGURL} />
             </Avatar>
             <span className="text-start font-medium line-clamp-1">
@@ -53,7 +53,7 @@ const UserItem = () => {
               </Avatar>
             </div>
             <div className="space-y-1">
-              <p className="text-sm line-clamp-1">Hi {USERNAME}!</p>
+              <p className="text-md line-clamp-1">Hi {USERNAME}!</p>
             </div>
           </div>
         </div>
@@ -62,8 +62,8 @@ const UserItem = () => {
           asChild
           className="w-full cursor-pointer text-muted-foreground"
         >
-          <Button onClick={signOut} variant={"ghost"} asChild>
-              <Link href="/">Sign Out</Link>
+          <Button onClick={signOut} variant={"ghost"}>
+              Sign Out
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>

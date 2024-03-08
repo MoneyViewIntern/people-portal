@@ -19,7 +19,7 @@ export default function LoginModal() {
           </div>
           <UserAuthForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            Click here to learn more about our{" "}
+            Our{" "}
             <Link
               href="https://moneyview.in/terms-and-conditions"
               className="underline underline-offset-4 hover:text-primary"

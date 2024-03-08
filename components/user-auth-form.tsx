@@ -18,8 +18,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 //     event.preventDefault();
 //     setIsLoading(true);
 //     try {
-//         const token = jwt.sign({ username, password }, 'your-secret-key');
-//         const response = await axios.post('http://localhost:8080/login', { token });
+//         const response = await axios.post('http://localhost:8080/login', { username, password});
 //         console.log('Server response:', response.data);
 //       } catch (error) {
 //         console.error('Error:', error);
@@ -46,7 +45,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </Label>
             <Input
               id="username"
-              placeholder="username"
+              placeholder="Username"
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isLoading}
@@ -60,7 +59,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Input
               id="password"
               type="password"
-              placeholder="password"
+              placeholder="Password"
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isLoading}
@@ -71,7 +70,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Username
+            Sign In
           </Button>
         </div>
       </form>

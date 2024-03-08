@@ -10,19 +10,19 @@ const Logo = () => {
     <div className="hidden md:flex items-center gap-x-2">
       <Image
         src="images/logo.svg"
-        height="35"
-        width="35"
+        height="50"
+        width="50"
         className="dark:hidden"
         alt="Logo"
       />
       <Image
         src="images/logo-dark.svg"
-        height="35"
-        width="35"
-        className="hidden dark:block"
+        height="50"
+        width="50"
+        className="hidden dark:block filter grayscale"
         alt="Logo"
       />
-      <p className={cn("font-semibold", font.className)}>PeoplePortal</p>
+      <p className={cn("font-bold", font.className)}>PeoplePortal</p>
     </div>
   );
 };

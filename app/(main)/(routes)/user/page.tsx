@@ -1,8 +1,6 @@
 "use client";
 import { useCenteredTree } from "@/utils/centeredTree";
 import Organizationchart from "@/components/chart/ChartContainer"
-import "nextjs-orgchart/dist/ChartContainer.css";
-import "nextjs-orgchart/dist/ChartNode.css";
 import Tree from "react-d3-tree"
 const orgChart = {
   name: "CEO",
@@ -33,35 +31,35 @@ const orgChart = {
   ],
 };
 const ds = {
-  id: "n1",
+  username: "n1",
   name: "Lao Lao",
   title: "general manager",
   children: [
-    { id: "n2", name: "Bo Miao", title: "department manager" },
+    { username: "n2", name: "Bo Miao", title: "department manager" },
     {
-      id: "n3",
+      username: "n3",
       name: "Su Miao",
       title: "department manager",
       children: [
-        { id: "n4", name: "Tie Hua", title: "senior engineer" },
+        { username: "n4", name: "Tie Hua", title: "senior engineer" },
         {
-          id: "n5",
+          username: "n5",
           name: "Hei Hei",
           title: "senior engineer",
           children: [
-            { id: "n6", name: "Dan Dan", title: "engineer" },
-            { id: "n7", name: "Xiang Xiang", title: "engineer" }
+            { username: "n6", name: "Dan Dan", title: "engineer" },
+            { username: "n7", name: "Xiang Xiang", title: "engineer" }
           ]
         },
-        { id: "n8", name: "Pang Pang", title: "senior engineer" }
+        { username: "n8", name: "Pang Pang", title: "senior engineer" }
       ]
     },
-    { id: "n9", name: "Hong Miao", title: "department manager" },
+    { username: "n9", name: "Hong Miao", title: "department manager" },
     {
-      id: "n10",
+      username: "n10",
       name: "Chun Miao",
       title: "department manager",
-      children: [{ id: "n11", name: "Yue Yue", title: "senior engineer" }]
+      children: [{ username: "n11", name: "Yue Yue", title: "senior engineer" }]
     }
   ]
 };

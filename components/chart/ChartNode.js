@@ -54,7 +54,7 @@ const ChartNode = ({
           !document
             .querySelector("#" + draggedInfo.draggedNodeId)
             .closest("li")
-            .querySelector("#" + node.current.id)
+            .querySelector("#" + node.current.username)
             ? true
             : false
         );
@@ -68,11 +68,11 @@ const ChartNode = ({
       .subscribe(selectedNodeInfo => {
         if (selectedNodeInfo) {
           if (multipleSelect) {
-            if (selectedNodeInfo.selectedNodeId === datasource.id) {
+            if (selectedNodeInfo.selectedNodeId === datasource.username) {
               setSelected(true);
             }
           } else {
-            setSelected(selectedNodeInfo.selectedNodeId === datasource.id);
+            setSelected(selectedNodeInfo.selectedNodeId === datasource.username);
           }
         } else {
           setSelected(false);
@@ -114,11 +114,10 @@ const ChartNode = ({
     if (!node) return;
     const isAncestorsCollapsed = node.firstChild.classList.contains("hidden");
     if (isAncestorsCollapsed) {
-      // 向上展开，只展开一级
+      
       actionNode.classList.remove("isAncestorsCollapsed");
       node.firstChild.classList.remove("hidden");
     } else {
-      // 向下折叠，则折叠所有祖先节点以及祖先节点的兄弟节点
       const isSiblingsCollapsed = Array.from(
         actionNode.parentNode.children
       ).some(item => item.classList.contains("hidden"));
@@ -132,7 +131,6 @@ const ChartNode = ({
         ).split(" ")
       );
       node.firstChild.classList.add("hidden");
-      // 如果还有展开的祖先节点，那继续折叠关闭之
       if (
         node.parentNode.closest("li") &&
         !node.parentNode.closest("li").firstChild.classList.contains("hidden")
@@ -160,8 +158,7 @@ const ChartNode = ({
       actionNode.parentNode.children
     ).some(item => item.classList.contains("hidden"));
     actionNode.classList.toggle("isSiblingsCollapsed", !isSiblingsCollapsed);
-    // 先处理同级的兄弟节点
-    while (node) {
+     while (node) {
       if (isSiblingsCollapsed) {
         node.classList.remove("hidden");
       } else {
@@ -178,7 +175,6 @@ const ChartNode = ({
       }
       node = node.nextSibling;
     }
-    // 在展开兄弟节点的同时，还要展开父节点
     const isAncestorsCollapsed = actionNode.parentNode
       .closest("li")
       .firstChild.classList.contains("hidden");
@@ -203,7 +199,7 @@ const ChartNode = ({
       onClickNode(datasource);
     }
 
-    selectNodeService.sendSelectedNodeInfo(datasource.id);
+    selectNodeService.sendSelectedNodeInfo(datasource.username);
   };
 
   const dragstartHandler = event => {
@@ -211,7 +207,7 @@ const ChartNode = ({
     delete copyDS.relationship;
     event.dataTransfer.setData("text/plain", JSON.stringify(copyDS));
     // highlight all potential drop targets
-    filterAllowedDropNodes(node.current.id);
+    filterAllowedDropNodes(node.current.username);
   };
 
   const dragoverHandler = event => {
@@ -231,7 +227,7 @@ const ChartNode = ({
     dragNodeService.clearDragInfo();
     changeHierarchy(
       JSON.parse(event.dataTransfer.getData("text/plain")),
-      event.currentTarget.id
+      event.currentTarget.username
     );
   };
 
@@ -239,7 +235,7 @@ const ChartNode = ({
     <li className="oc-hierarchy">
       <div
         ref={node}
-        id={datasource.id}
+        id={datasource.username}
         className={nodeClass}
         draggable={draggable ? "true" : undefined}
         onClick={clickNodeHandler}
@@ -323,10 +319,11 @@ const ChartNode = ({
         <ul className={isChildrenCollapsed ? "hidden" : ""}>
           {datasource.children.map(node => (
             <ChartNode
+              
               datasource={node}
               NodeTemplate={NodeTemplate}
-              id={node.id}
-              key={node.id}
+              id={node.username}
+              key={node.username}
               draggable={draggable}
               collapsible={collapsible}
               multipleSelect={multipleSelect}

@@ -2,15 +2,19 @@ import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { dragNodeService, selectNodeService } from "./service";
 import "./ChartNode.css";
+import JSONDigger from "json-digger";
+import axios from "axios";
 
 const propTypes = {
   datasource: PropTypes.object,
+  addParent:PropTypes.func,
+  addChild:PropTypes.func,
   NodeTemplate: PropTypes.elementType,
   draggable: PropTypes.bool,
   collapsible: PropTypes.bool,
   multipleSelect: PropTypes.bool,
   changeHierarchy: PropTypes.func,
-  onClickNode: PropTypes.func
+  onClickNode: PropTypes.func,
 };
 
 const defaultProps = {
@@ -21,12 +25,14 @@ const defaultProps = {
 
 const ChartNode = ({
   datasource,
+  addChild,
+  addParent,
   NodeTemplate,
   draggable,
   collapsible,
   multipleSelect,
   changeHierarchy,
-  onClickNode
+  onClickNode,
 }) => {
   const node = useRef();
 
@@ -37,6 +43,8 @@ const ChartNode = ({
   const [leftEdgeExpanded, setLeftEdgeExpanded] = useState();
   const [allowedDrop, setAllowedDrop] = useState(false);
   const [selected, setSelected] = useState(false);
+  const [isFetchedBottom,setIsFetchedBottom]=useState(false);
+  const [isFetchedTop,setIsFetchedTop]=useState(false);
 
   const nodeClass = [
     "oc-node",
@@ -83,7 +91,7 @@ const ChartNode = ({
       subs1.unsubscribe();
       subs2.unsubscribe();
     };
-  }, [multipleSelect, datasource]);
+  }, [ datasource]);
 
   const addArrows = e => {
     const node = e.target.closest("li");
@@ -96,11 +104,23 @@ const ChartNode = ({
     const isSiblingsCollapsed = Array.from(
       node.parentNode.children
     ).some(item => item.classList.contains("hidden"));
+    
+    if (isAncestorsCollapsed===undefined && !isFetchedTop){
+      setTopEdgeExpanded(isFetchedTop);
+    }
+    else {
+      setTopEdgeExpanded(!isAncestorsCollapsed);
+    }
+    
 
-    setTopEdgeExpanded(!isAncestorsCollapsed);
     setRightEdgeExpanded(!isSiblingsCollapsed);
     setLeftEdgeExpanded(!isSiblingsCollapsed);
+    if (!isFetchedBottom){
+      setBottomEdgeExpanded(isFetchedBottom);
+    }
+    else{
     setBottomEdgeExpanded(!isChildrenCollapsed);
+    }
   };
 
   const removeArrows = () => {
@@ -141,14 +161,26 @@ const ChartNode = ({
     }
   };
 
-  const topEdgeClickHandler = e => {
+  const topEdgeClickHandler = async (e) => {
     e.stopPropagation();
-    setTopEdgeExpanded(!topEdgeExpanded);
+    const node = e.target.closest("li");
+    const parent = node.parentNode.closest("li");
+    if (!parent){
+      addParent(datasource.username);
+      setIsFetchedTop(true);
+    }
+     setTopEdgeExpanded(!topEdgeExpanded);
     toggleAncestors(e.target.closest("li"));
   };
 
   const bottomEdgeClickHandler = e => {
     e.stopPropagation();
+
+    if (!datasource.reportee){ 
+      addChild(datasource.username)
+      setIsFetchedBottom(!isFetchedBottom);
+      
+    }
     setIsChildrenCollapsed(!isChildrenCollapsed);
     setBottomEdgeExpanded(!bottomEdgeExpanded);
   };
@@ -196,7 +228,9 @@ const ChartNode = ({
   };
 
   const clickNodeHandler = event => {
+    
     if (onClickNode) {
+     
       onClickNode(datasource);
     }
 
@@ -261,9 +295,9 @@ const ChartNode = ({
             <div className="oc-content">{datasource.designation}-{datasource.level}</div>
           </>
         )}
-        {collapsible &&
+        { (!isFetchedTop || (collapsible &&
           datasource.relationship &&
-          datasource.relationship.charAt(0) === "1" && (
+          datasource.relationship.charAt(0) === "1") ) && (
             <i
               className={`oc-edge verticalEdge topEdge oci ${
                 topEdgeExpanded === undefined
@@ -301,9 +335,9 @@ const ChartNode = ({
               />
             </>
           )}
-        {collapsible &&
+        {(!isFetchedBottom ||(collapsible &&
           datasource.relationship &&
-          datasource.relationship.charAt(2) === "1" && (
+          datasource.relationship.charAt(2) === "1")) && (
             <i
               className={`oc-edge verticalEdge bottomEdge oci ${
                 bottomEdgeExpanded === undefined
@@ -320,7 +354,8 @@ const ChartNode = ({
         <ul className={isChildrenCollapsed ? "hidden" : ""}>
           {datasource.reportee.map(node => (
             <ChartNode
-              
+              addParent={addParent}
+              addChild={addChild}
               datasource={node}
               NodeTemplate={NodeTemplate}
               id={node.username}

@@ -12,6 +12,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import ChartNode from "./ChartNode";
 import "./ChartContainer.css";
+import axios from "axios";
 
 const propTypes = {
   datasource: PropTypes.object.isRequired,
@@ -100,6 +101,28 @@ const ChartContainer = forwardRef(
         selectNodeService.clearSelectedNodeInfo();
       }
     };
+
+
+  const addChildNodes = async (node) => {
+    const resp=await axios.get(`http://localhost:8080/api/reportee/${node}`)
+    console.log(resp.data);
+    if (resp.data.length) await dsDigger.addChildren(node,resp.data);
+    setDS({ ...dsDigger.ds });
+  };
+
+  const addSiblingNodes = async (nodes,username) => {
+    nodes=nodes.filter(node=>node.username!=username)
+    if (nodes) await dsDigger.addSiblings(username,nodes);
+    setDS({ ...dsDigger.ds });
+  };
+
+  const addRootNode = async (node) => {
+    const resp=await axios.get(`http://localhost:8080/api/manager/${node}`)
+    const {reportee,...root}=resp.data;
+    dsDigger.addRoot(root);
+    addSiblingNodes(resp.data.reportee,node);
+    setDS({ ...dsDigger.ds });
+  };
 
     const panEndHandler = () => {
       setPanning(false);
@@ -313,6 +336,8 @@ const ChartContainer = forwardRef(
           <ul>
             <ChartNode
               datasource={attachRel(ds, "00")}
+              addChild={addChildNodes}
+              addParent={addRootNode}
               NodeTemplate={NodeTemplate}
               draggable={draggable}
               collapsible={collapsible}

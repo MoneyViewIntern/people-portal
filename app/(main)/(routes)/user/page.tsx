@@ -52,10 +52,19 @@ const UserPage = () => {
     // setDs(resp);
     console.log(ds);
   },[])
+
+
+  const [selectedNodes, setSelectedNodes] = useState(new Set());
   const [dimensions, translate, containerRef] = useCenteredTree();
   const handleClick = () => {
     console.log("node clicked");
   };
+
+  const readSelectedNode = nodeData => {  
+      setSelectedNodes(new Set([nodeData]));
+
+  };
+
   return (
     <div className="h-full w-full flex flex-auto items-center justify-center">
       <div ref={containerRef} className="h-full w-full">
@@ -70,7 +79,7 @@ const UserPage = () => {
           data={orgChart}
           onNodeClick={handleClick}
         /> */}
-        <Organizationchart datasource={ds}/>
+        <Organizationchart datasource={ds} onClickNode={readSelectedNode}/>
       </div>
     </div>
   );

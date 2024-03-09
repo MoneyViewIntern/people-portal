@@ -86,12 +86,16 @@ const ChartNode = ({
           setSelected(false);
         }
       });
-
+      setIsFetchedBottom(false);
+      setIsFetchedTop(false);
     return () => {
       subs1.unsubscribe();
       subs2.unsubscribe();
     };
-  }, [ datasource]);
+    
+  }, [datasource]);
+
+
 
   const addArrows = e => {
     const node = e.target.closest("li");
@@ -181,8 +185,10 @@ const ChartNode = ({
       setIsFetchedBottom(!isFetchedBottom);
       
     }
+    else{
     setIsChildrenCollapsed(!isChildrenCollapsed);
     setBottomEdgeExpanded(!bottomEdgeExpanded);
+    }
   };
 
   const toggleSiblings = actionNode => {

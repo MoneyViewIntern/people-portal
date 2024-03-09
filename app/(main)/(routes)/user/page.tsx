@@ -60,7 +60,7 @@ const UserPage = () => {
     console.log("node clicked");
   };
 
-  const readSelectedNode = nodeData => {  
+  const readSelectedNode = (nodeData: any) => {  
       setSelectedNodes(new Set([nodeData]));
 
   };

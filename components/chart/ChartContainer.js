@@ -90,7 +90,7 @@ const ChartContainer = forwardRef(
     useEffect(() => {
       setDS(datasource);
     }, [datasource]);
-
+    
     const dsDigger = new JSONDigger(datasource, "username", "reportee");
 
     const clickChartHandler = (event) => {
@@ -118,10 +118,13 @@ const ChartContainer = forwardRef(
 
   const addRootNode = async (node) => {
     const resp=await axios.get(`http://localhost:8080/api/manager/${node}`)
+    console.log(resp.data)
+    if (resp.data){
     const {reportee,...root}=resp.data;
     dsDigger.addRoot(root);
     addSiblingNodes(resp.data.reportee,node);
     setDS({ ...dsDigger.ds });
+    }
   };
 
     const panEndHandler = () => {

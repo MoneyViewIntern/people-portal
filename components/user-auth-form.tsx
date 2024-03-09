@@ -7,32 +7,44 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import axios from 'axios'
-import jwt from 'jsonwebtoken'
+import { useAuthContext } from "@/context/auth-context"
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [username, setUsername]= useState("");
   const [password, setPassword]= useState("");
-//   async function handleSubmit(event: React.SyntheticEvent) {
-//     event.preventDefault();
-//     setIsLoading(true);
-//     try {
-//         const response = await axios.post('http://localhost:8080/login', { username, password});
-//         console.log('Server response:', response.data);
-//       } catch (error) {
-//         console.error('Error:', error);
-//       }
-//     setTimeout(() => {
-//       setIsLoading(false);
-//     }, 500)
-//   }
+  const {isSignedIn, setIsSignedIn} = useAuthContext();
+
+  async function handleSubmit(event: React.SyntheticEvent) {
+    event.preventDefault();
+    setIsLoading(true);
+    try {
+        const response = await axios.post('http://localhost:8080/api/login', {username : username, password : password});
+        console.log('Server response:', response.data);
+        if(response?.data){
+          setIsSignedIn(true);
+          console.log(isSignedIn)
+        }
+        else{
+          setIsSignedIn(false);
+          console.log("Did not find user in db");
+        }
+      } catch (error) {
+        console.error('Error a gyi:', error);
+      }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500)
+  }
+
+
  // Dummy function to set loading button state
-    async function handleSubmit(event: React.SyntheticEvent){
-        event.preventDefault();
-        setIsLoading(true);
-        setTimeout(()=>{setIsLoading(false)},500);
-    }
+    // async function handleSubmit(event: React.SyntheticEvent){
+    //     event.preventDefault();
+    //     setIsLoading(true);
+    //     setTimeout(()=>{setIsLoading(false)},500);
+    // }
   
 
   return (

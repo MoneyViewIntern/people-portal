@@ -49,7 +49,7 @@ const NodeTemplate = ({
           <Tooltip>
             <TooltipTrigger>
               <p className="mt-[2px] ml-2  text-[12px] text-gray-500 hover:text-black cursor-pointer dark:text-white ">
-                {designation.length > 20 ? designation.slice(0, 19) + "..." : designation}
+                {designation && designation.length > 20 ? designation.slice(0, 19) + "..." : designation}
               </p>
             </TooltipTrigger>
             <TooltipContent className="flex justify-between">

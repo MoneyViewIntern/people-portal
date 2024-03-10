@@ -2,7 +2,7 @@
 import Organizationchart from "@/components/chart/ChartContainer"
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import NodeTemplate from "@/components/node-template";
 const apiCall=async ()=>{
   const resp = await axios.get("http://localhost:8080/api/user/satwik");
   
@@ -29,10 +29,10 @@ const UserPage = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-grow items-center justify-center">
-        <Organizationchart datasource={ds} onClickNode={readSelectedNode}/>
-
-    </div>
+    <>
+    <NodeTemplate name={"Arihant Agnihotri"} username={"arihant"} designation={"Software Developer"} level={"3"} profileImg="https://res.cloudinary.com/dfk6ftcdb/image/upload/v1/satwik/qc7m4tkwdfc5qgsvyrnm" />
+      <Organizationchart datasource={ds} pan={true} onClickNode={readSelectedNode} />
+    </>
   );
 };
 

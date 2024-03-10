@@ -18,9 +18,6 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
             className="h-6 w-6 text-muted-foreground"
           />
         )}
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center gap-x-2">Hello</div>
-        </div>
       </nav>
     </>
   );

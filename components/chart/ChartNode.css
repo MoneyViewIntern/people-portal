@@ -54,10 +54,10 @@
   background-color: rgba(68, 157, 68, 0.9);
 }
 .orgchart ul li .oc-node.selected {
-  background-color: rgba(238, 217, 54, 0.5);
+  background-color: rgba(68, 157, 68, 0.19);
 }
 .orgchart ul li .oc-node:hover {
-  background-color: rgba(238, 217, 54, 0.5);
+  background-color: rgba(54, 238, 91, 0.222);
 }
 /* excluding root node */
 .orgchart > ul > li > ul li > .oc-node::before {
@@ -108,7 +108,6 @@
   white-space: nowrap;
   background-color: rgba(68, 157, 68, 0.9);
   color: #fff;
-  border-radius: 4px 4px 0 0;
 }
 
 .orgchart ul li .oc-node .oc-heading .oc-symbol {
@@ -133,10 +132,8 @@
   height: 20px;
   font-size: 0.625rem;
   border: 1px solid rgba(68, 157, 68, 0.9);
-  border-radius: 0 0 4px 4px;
+  
   text-align: center;
-  background-color: #fff;
-  color: #333;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

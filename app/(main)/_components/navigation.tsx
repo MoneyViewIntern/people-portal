@@ -44,7 +44,7 @@ const Navigation = () => {
 
     let newWidth = e.clientX;
     if (newWidth < 340) newWidth = 340;
-    if (newWidth > 540) newWidth = 540;
+    if (newWidth > 640) newWidth = 640;
 
     if (sidebarRef.current && navbarRef.current) {
       sidebarRef.current.style.width = `${newWidth}px`;
@@ -71,9 +71,9 @@ const Navigation = () => {
     if (sidebarRef.current && navbarRef.current) {
       setIsCollapsed(false);
       setIsResetting(true);
-      sidebarRef.current.style.width = isMobile ? "100%" : "340px";
-      navbarRef.current.style.width = isMobile ? "0" : "calc(100% - 340px)";
-      navbarRef.current.style.left = isMobile ? "100%" : "340px";
+      sidebarRef.current.style.width = isMobile ? "100%" : "440px";
+      navbarRef.current.style.width = isMobile ? "0" : "calc(100% - 440px)";
+      navbarRef.current.style.left = isMobile ? "100%" : "440px";
       setTimeout(() => setIsResetting(false), 300);
     }
   };

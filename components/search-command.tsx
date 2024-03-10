@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearch } from "@/hooks/use-search";
-import { useUser } from "@clerk/clerk-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
@@ -13,9 +12,10 @@ import {
   CommandList,
   CommandSeparator,
 } from "./ui/command";
+import { useAuthContext } from "@/context/auth-context";
 
 export const SearchCommand = () => {
-  const { user } = useUser();
+  const { currentUser } = useAuthContext();
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -39,16 +39,16 @@ export const SearchCommand = () => {
     return () => document.removeEventListener("keydown", down);
   }, [toggle]);
 
-  const handleSelect = (id: string) => {
-    router.push(`/user/${id}`);
-    onClose();
-  };
+  // const handleSelect = (id: string) => {
+  //   router.push(`/user/${id}`);
+  //   onClose();
+  // };
 
   if (!isMounted) return null;
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <CommandInput placeholder={`Search ${user?.username}'s Portal...`} />
+      <CommandInput placeholder={`Search ${currentUser}'s Portal...`} />
       <CommandList>
         <CommandEmpty>No results found</CommandEmpty>
         <CommandGroup heading="Users">

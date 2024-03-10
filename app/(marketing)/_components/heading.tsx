@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
-import { useUser, SignInButton } from "@clerk/nextjs";
 import { useAuthContext } from "@/context/auth-context";
 export const Heading = () => {
   // const { isSignedIn, user, isLoaded } = useUser();

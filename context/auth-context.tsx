@@ -41,6 +41,7 @@ export const AuthProvider: React.FC<Props> = ({children}) => {
     const signOut = ()=>{
       setIsSignedIn(false);
       setCurrentUser("");
+      localStorage.clear();
     }
   return (
     <AuthContext.Provider value={{ isSignedIn, currentUser, setCurrentUser, setIsSignedIn, signOut }}>

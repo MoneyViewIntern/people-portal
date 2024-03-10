@@ -4,7 +4,6 @@ import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { useSettings } from "@/hooks/use-settings";
 import { Label } from "@/components/ui/label";
 import { ModeToggle } from "@/components/mode-toggle";
-import { SignOutButton} from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
 import { useAuthContext } from "@/context/auth-context";

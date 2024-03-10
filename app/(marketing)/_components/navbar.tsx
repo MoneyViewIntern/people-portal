@@ -1,11 +1,9 @@
 "use client";
-import { useUser, SignInButton, UserButton, SignUpButton } from "@clerk/nextjs";
 import { useScrollTop } from "@/hooks/use-scroll-top";
 import { cn } from "@/lib/utils";
 import Logo from "./logo";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/spinner";
 import Link from "next/link";
 import { useAuthContext } from "@/context/auth-context";
 import { useAuth } from "@/hooks/use-auth";

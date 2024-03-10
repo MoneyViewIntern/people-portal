@@ -9,9 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronsLeftRight } from "lucide-react";
-import { useUser, SignOutButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useAuthContext } from "@/context/auth-context";
 
 const UserItem = () => {

@@ -1,7 +1,4 @@
 "use client";
-
-import { Spinner } from "@/components/spinner";
-import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Navigation from "./_components/navigation";
 import { SearchCommand } from "@/components/search-command";

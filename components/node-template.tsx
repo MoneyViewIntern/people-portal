@@ -25,7 +25,7 @@ const NodeTemplate = ({
 }: NodeTemplateProps) => {
   return (
     <TooltipProvider>
-      <div className="rounded-[10px] m-9 flex gap-y-3 flex-col w-[200px] h-[90px] border-2 shadow-md p-2">
+      <div className="rounded-[10px] flex gap-y-3 flex-col w-[200px] h-[90px] border-2 shadow-md p-2">
         <div className="flex items-center justify-center">
           {/* <User className="h-6 w-6 stroke-1" />
            */}

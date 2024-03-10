@@ -10,32 +10,32 @@ import {
 import { PROFILE_IMAGE_URL } from "@/Constants/constants";
 
 interface NodeTemplateProps {
-  name: string;
-  username: string;
-  designation: string;
-  level: string;
-  profileImg?: string;
+    name:string,
+    username:string,
+    designation:string,
+    level:string,
+    displayImg?:string
 }
 const NodeTemplate = ({
   name,
   username,
   designation,
   level,
-  profileImg,
+  displayImg,
 }: NodeTemplateProps) => {
   return (
     <TooltipProvider>
-      <div className="rounded-[10px] flex gap-y-3 flex-col w-[200px] h-[90px] border-2 shadow-md p-2">
+      <div className="rounded-[10px] flex gap-y-2 flex-col w-[180px]  border-2  bg-secondary/60 shadow-md py-2">
         <div className="flex items-center justify-center">
           {/* <User className="h-6 w-6 stroke-1" />
            */}
            <div className="h-8 w-8">
-            <img src={profileImg?profileImg:PROFILE_IMAGE_URL} className="rounded-full h-8 w-8"/>
+            <img src={displayImg?displayImg:PROFILE_IMAGE_URL} className="rounded-full border-2  h-8 w-8"/>
            </div>
           <Tooltip>
             <TooltipTrigger>
-              <p className="mt-[3px] ml-2 font-bold text-[15px] text-gray-500 hover:text-black cursor-pointer dark:text-white mb-1">
-                {name.length > 18 ? name.slice(0, 14) + "..." : name}
+              <p className="mt-[1px] ml-2 font-bold text-[16px] text-gray-500 hover:text-black cursor-pointer dark:text-white ">
+                {name && name.length > 18 ? name.slice(0, 14) + "..." : name}
               </p>
             </TooltipTrigger>
             <TooltipContent>
@@ -48,7 +48,7 @@ const NodeTemplate = ({
           <Building className="  text-[#0B8C4C] dark:text-gray-400 ml-1 h-5 w-6" />
           <Tooltip>
             <TooltipTrigger>
-              <p className="mt-[3px] ml-2  text-xs text-gray-500 hover:text-black cursor-pointer dark:text-white mb-1">
+              <p className="mt-[2px] ml-2  text-[12px] text-gray-500 hover:text-black cursor-pointer dark:text-white ">
                 {designation.length > 20 ? designation.slice(0, 19) + "..." : designation}
               </p>
             </TooltipTrigger>

@@ -221,7 +221,7 @@ const ChartNode = ({
         onMouseLeave={removeArrows}
       >
         {NodeTemplate ? (
-          <NodeTemplate nodeData={datasource} />
+          <NodeTemplate name={datasource.name} username={datasource.username} displayImg={datasource.displayImgUrl} designation={datasource.designation} level={datasource.level}  />
         ) : (
           <>
             <div className="oc-heading">

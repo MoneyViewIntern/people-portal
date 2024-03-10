@@ -13,8 +13,8 @@ interface ChartProps {
   draggable?: boolean;
   collapsible?: boolean;
   multipleSelect?: boolean;
-  onClickNode?: () => void;
-  onClickChart?: () => void;
+  onClickNode?: function;
+  onClickChart?: function;
 }
 
 // Declare ChartContainer component

@@ -5,6 +5,9 @@ import Tree from "react-d3-tree"
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+
+
+
 // const ds = {
 //   username: "n1",
 //   name: "Lao Lao",
@@ -40,7 +43,7 @@ import axios from "axios";
 // };
 
 const apiCall=async ()=>{
-  const resp = await axios.get("http://localhost:8080/api/user/satwik");
+  const resp = await axios.get("http://localhost:8080/api/manager/satwik");
   
   return resp.data;
 }
@@ -49,20 +52,18 @@ const UserPage = () => {
   const [ds,setDs]=useState({});
   useEffect( ()=>{
     apiCall().then(res=>setDs(res));
-    // setDs(resp);
-    console.log(ds);
   },[])
 
 
-  const [selectedNodes, setSelectedNodes] = useState(new Set());
+  const [selectedNodes, setSelectedNodes] = useState({});
   const [dimensions, translate, containerRef] = useCenteredTree();
   const handleClick = () => {
     console.log("node clicked");
   };
 
   const readSelectedNode = (nodeData: any) => {  
-      setSelectedNodes(new Set([nodeData]));
-
+      setSelectedNodes(nodeData);
+      console.log(selectedNodes);
   };
 
   return (

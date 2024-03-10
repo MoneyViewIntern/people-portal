@@ -226,7 +226,7 @@ const ChartContainer = forwardRef(
     };
 
     const zoomHandler = (e) => {
-      let newScale = 1 + (e.deltaY > 0 ? -0.2 : 0.2);
+      let newScale =  1 + (e.deltaY > 0 ? -0.07 : 0.07);
       updateChartScale(newScale);
     };
 

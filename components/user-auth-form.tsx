@@ -1,51 +1,59 @@
-"use client"
-import * as React from "react"
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useState } from "react"
-import axios from 'axios'
-import { useAuthContext } from "@/context/auth-context"
+"use client";
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import axios, { AxiosError } from "axios";
+import { toast } from "sonner";
+import { useAuthContext } from "@/context/auth-context";
+import { useAuth } from "@/hooks/use-auth";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [username, setUsername]= useState("");
-  const [password, setPassword]= useState("");
-  const {isSignedIn, setIsSignedIn} = useAuthContext();
-
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { isSignedIn, currentUser, setCurrentUser, setIsSignedIn } = useAuthContext();
+ const {onClose} = useAuth();
   async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
     try {
-        const response = await axios.post('http://localhost:8080/api/login', {username : username, password : password});
-        console.log('Server response:', response.data);
-        if(response?.data){
-          setIsSignedIn(true);
-          console.log(isSignedIn)
-        }
-        else{
-          setIsSignedIn(false);
-          console.log("Did not find user in db");
-        }
-      } catch (error) {
-        console.error('Error a gyi:', error);
+      const response = await axios.post("http://localhost:8080/login", {
+        username: username,
+        password: password,
+      });
+      console.log("Server response:", response.data);
+      console.log(response.status);
+      if (response.status === 200 && response.data === true) {
+        setIsSignedIn(true); // User found
+        setCurrentUser(username);
+        toast.success("Logged in successfully!");
+        onClose();
+
       }
-    setTimeout(() => {
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        let errorCode = error?.response?.status;
+        if (errorCode === 401)toast.error("Invalid password. Please try again."); // Invalid Password
+        else if (errorCode === 404) toast.error("Invalid Username."); // User username
+        else toast.error("Unexpected error occurred.");
+        console.log(error);
+      }
+    } finally {
       setIsLoading(false);
-    }, 500)
+    }
   }
 
-
- // Dummy function to set loading button state
-    // async function handleSubmit(event: React.SyntheticEvent){
-    //     event.preventDefault();
-    //     setIsLoading(true);
-    //     setTimeout(()=>{setIsLoading(false)},500);
-    // }
-  
+  // Dummy function to set loading button state
+  // async function handleSubmit(event: React.SyntheticEvent){
+  //     event.preventDefault();
+  //     setIsLoading(true);
+  //     setTimeout(()=>{setIsLoading(false)},500);
+  // }
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -61,7 +69,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isLoading}
-              onChange={(e)=>setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="grid gap-1 pb-3">
@@ -75,7 +83,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isLoading}
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <Button disabled={isLoading}>
@@ -92,5 +100,5 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

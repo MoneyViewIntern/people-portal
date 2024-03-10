@@ -1,18 +1,10 @@
 "use client";
 
-import { Spinner } from "@/components/spinner";
-import { useUser } from "@clerk/nextjs";
+import { useAuthContext } from "@/context/auth-context";
 import { redirect } from "next/navigation";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isSignedIn, isLoaded } = useUser();
-  if (!isLoaded) {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <Spinner size="lg" />
-      </div>
-    );
-  }
+  const { isSignedIn } = useAuthContext();
   if (!isSignedIn) {
     return redirect("/");
   }

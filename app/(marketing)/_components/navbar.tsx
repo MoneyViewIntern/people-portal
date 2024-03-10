@@ -11,11 +11,10 @@ import { useAuthContext } from "@/context/auth-context";
 import { useAuth } from "@/hooks/use-auth";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 const Navbar = () => {
-  const { isSignedIn, isLoaded } = useUser();
   const scrolled = useScrollTop();
   const handleAuth = useAuth().onOpen;
   const IMGURL = "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png";
-  // const {isSignedIn}= useAuthContext();
+  const {isSignedIn}= useAuthContext();
   return (
     <div
       className={cn(
@@ -26,15 +25,9 @@ const Navbar = () => {
       <Logo />
       <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
         {!isSignedIn && (
-          <SignInButton>
-            <Button variant="outline" size="sm">
-              Sign In
-            </Button>
-          </SignInButton>
-          // For using auth
-        //   <Button onClick={handleAuth} variant="outline" size="sm">
-        //   Sign In
-        // </Button>
+          <Button onClick={handleAuth} variant="outline" size="sm">
+          Sign In
+        </Button>
         )}
         {isSignedIn && (
           <>

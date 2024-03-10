@@ -1,6 +1,6 @@
 "use client";
 
-import { Building, Shield, User } from "lucide-react";
+import { Building, Shield} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -10,11 +10,11 @@ import {
 import { PROFILE_IMAGE_URL } from "@/Constants/constants";
 
 interface NodeTemplateProps {
-    name:string,
-    username:string,
-    designation:string,
-    level:string,
-    displayImg?:string
+  name: string;
+  username: string;
+  designation: string;
+  level: string;
+  displayImg?: string;
 }
 const NodeTemplate = ({
   name,
@@ -25,13 +25,14 @@ const NodeTemplate = ({
 }: NodeTemplateProps) => {
   return (
     <TooltipProvider>
-      <div className="rounded-[10px] flex gap-y-2 flex-col w-[180px]  border-2  bg-secondary/60 shadow-md py-2">
+      <div className="select-none flex gap-y-2 flex-col w-[180px]  border-2  bg-secondary/60 shadow-md py-2">
         <div className="flex items-center justify-center">
-          {/* <User className="h-6 w-6 stroke-1" />
-           */}
-           <div className="h-8 w-8">
-            <img src={displayImg?displayImg:PROFILE_IMAGE_URL} className="rounded-full border-2  h-8 w-8"/>
-           </div>
+          <div className="h-8 w-8">
+            <img
+              src={displayImg ? displayImg : PROFILE_IMAGE_URL}
+              className="rounded-full border-2  h-8 w-8"
+            />
+          </div>
           <Tooltip>
             <TooltipTrigger>
               <p className="mt-[1px] ml-2 font-bold text-[16px] text-gray-500 hover:text-black cursor-pointer dark:text-white ">
@@ -49,16 +50,17 @@ const NodeTemplate = ({
           <Tooltip>
             <TooltipTrigger>
               <p className="mt-[2px] ml-2  text-[12px] text-gray-500 hover:text-black cursor-pointer dark:text-white ">
-                {designation && designation.length > 20 ? designation.slice(0, 19) + "..." : designation}
+                {designation && designation.length > 20
+                  ? designation.slice(0, 19) + "..."
+                  : designation}
               </p>
             </TooltipTrigger>
             <TooltipContent className="flex justify-between">
-            <Shield className="mt-[1px] h-3 w-3 text-[#0B8C4C] dark:text-gray-400 mr-1" />
+              <Shield className="mt-[1px] h-3 w-3 text-[#0B8C4C] dark:text-gray-400 mr-1" />
               <p className="text-xs">L{level}</p>
             </TooltipContent>
           </Tooltip>
         </div>
-        
       </div>
     </TooltipProvider>
   );

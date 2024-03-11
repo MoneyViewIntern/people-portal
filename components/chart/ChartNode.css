@@ -57,7 +57,6 @@
   background-color: rgba(68, 157, 68, 0.19);
 }
 .orgchart ul li .oc-node:hover {
-  background-color: rgba(54, 238, 91, 0.222);
 }
 /* excluding root node */
 .orgchart > ul > li > ul li > .oc-node::before {
@@ -146,7 +145,7 @@
 }
 
 .orgchart .oc-node .oc-edge::before {
-  border-color: rgba(0, 0, 0, 0.945);
+  border-color: rgba(68, 157, 68, 0.9)
 }
 
 .orgchart.noncollapsable .oc-node .oc-edge {
@@ -158,7 +157,7 @@
 }
 
 .orgchart .oc-edge:hover::before {
-  border-color: #020702;
+  border-color: rgba(68, 157, 68, 0.9);
 }
 
 .orgchart .oc-node .verticalEdge {

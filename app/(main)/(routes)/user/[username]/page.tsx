@@ -11,8 +11,10 @@ interface UsernamePageProps {
 const UserPage = ({ params }: UsernamePageProps) => {
   const [ds, setDs] = useState({});
   const apiCall = async () => {
-    const resp = await axios.get(
+    var resp = await axios.get(
       `http://localhost:8080/api/manager/${params.username}`
+    );
+    if(!resp.data) await axios.get(`http://localhost:8080/api/user/${params.username}`
     );
     return resp.data;
   };

@@ -10,24 +10,16 @@ const propTypes = {
   addChild: PropTypes.func,
   NodeTemplate: PropTypes.elementType,
   collapsible: PropTypes.bool,
-  changeHierarchy: PropTypes.func,
   onClickNode: PropTypes.func,
 };
 
-// Default props
-const defaultProps = {
-  draggable: false,
-  collapsible: true,
-  multipleSelect: false
-};
 
 const ChartNode = ({
   datasource,
   addChild,
   addParent,
   NodeTemplate,
-  collapsible,
-  changeHierarchy,
+  collapsible=true,
   onClickNode,
 }) => {
   // Ref for the node element
@@ -238,7 +230,7 @@ const ChartNode = ({
           datasource.relationship &&
           datasource.relationship.charAt(0) === "1")) && (
           <i
-            className={`oc-edge verticalEdge topEdge oci ${
+            className={`dark:bg-white oc-edge verticalEdge topEdge oci ${
               topEdgeExpanded === undefined
                 ? ""
                 : topEdgeExpanded
@@ -253,7 +245,7 @@ const ChartNode = ({
           datasource.relationship.charAt(1) === "1" && (
             <>
               <i
-                className={`oc-edge horizontalEdge rightEdge oci ${
+                className={`dark:bg-white oc-edge horizontalEdge rightEdge oci ${
                   rightEdgeExpanded === undefined
                     ? ""
                     : rightEdgeExpanded
@@ -263,7 +255,7 @@ const ChartNode = ({
                 onClick={hEdgeClickHandler}
               />
               <i
-                className={`oc-edge horizontalEdge leftEdge oci ${
+                className={`dark:bg-white oc-edge horizontalEdge leftEdge oci ${
                   leftEdgeExpanded === undefined
                     ? ""
                     : leftEdgeExpanded
@@ -278,7 +270,7 @@ const ChartNode = ({
           datasource.relationship &&
           datasource.relationship.charAt(2) === "1")) && (
           <i
-            className={`oc-edge verticalEdge bottomEdge oci ${
+            className={`dark:bg-white oc-edge verticalEdge bottomEdge oci ${
               bottomEdgeExpanded === undefined
                 ? ""
                 : bottomEdgeExpanded
@@ -300,7 +292,6 @@ const ChartNode = ({
               id={node.username}
               key={node.username}
               collapsible={collapsible}
-              changeHierarchy={changeHierarchy}
               onClickNode={onClickNode}
             />
           ))}
@@ -311,6 +302,5 @@ const ChartNode = ({
 };
 
 ChartNode.propTypes = propTypes;
-ChartNode.defaultProps = defaultProps;
 
 export default ChartNode;

@@ -23,40 +23,25 @@ const propTypes = {
   containerClass: PropTypes.string,
   chartClass: PropTypes.string,
   NodeTemplate: PropTypes.elementType,
-  draggable: PropTypes.bool,
   collapsible: PropTypes.bool,
-  multipleSelect: PropTypes.bool,
   onClickNode: PropTypes.func,
   onClickChart: PropTypes.func,
 };
 
-const defaultProps = {
-  pan: false,
-  zoom: false,
-  zoomoutLimit: 0.5,
-  zoominLimit: 7,
-  containerClass: "",
-  chartClass: "",
-  draggable: false,
-  collapsible: true,
-  multipleSelect: false,
-};
 
 /* trunk-ignore(eslint/react/display-name) */
 const ChartContainer = forwardRef(
   (
     {
       datasource,
-      pan,
-      zoom,
-      zoomoutLimit,
-      zoominLimit,
-      containerClass,
-      chartClass,
+      pan = false,
+      zoom = false,
+      zoomoutLimit = 0.5,
+      zoominLimit = 2,
+      containerClass = "",
+      chartClass = "",
       NodeTemplate,
-      draggable,
-      collapsible,
-      multipleSelect,
+      collapsible = true,
       onClickNode,
       onClickChart,
     },
@@ -76,6 +61,7 @@ const ChartContainer = forwardRef(
     const [download, setDownload] = useState("");
 
     const attachRel = (data, flags) => {
+      // console.log(data);
       data.relationship =
         flags + (data.reportee && data.reportee.length > 0 ? 1 : 0);
       if (data.reportee) {
@@ -90,7 +76,7 @@ const ChartContainer = forwardRef(
     useEffect(() => {
       setDS(datasource);
     }, [datasource]);
-    
+
     const dsDigger = new JSONDigger(datasource, "username", "reportee");
 
     const clickChartHandler = (event) => {
@@ -103,29 +89,29 @@ const ChartContainer = forwardRef(
     };
 
 
-  const addChildNodes = async (node) => {
-    const resp=await axios.get(`http://localhost:8080/api/reportee/${node}`)
-    console.log(resp.data);
-    if (resp.data.length) await dsDigger.addChildren(node,resp.data);
-    setDS({ ...dsDigger.ds });
-  };
+    const addChildNodes = async (node) => {
+      const resp = await axios.get(`http://localhost:8080/api/reportee/${node}`)
+      console.log(resp.data);
+      if (resp.data.length) await dsDigger.addChildren(node, resp.data);
+      setDS({ ...dsDigger.ds });
+    };
 
-  const addSiblingNodes = async (nodes,username) => {
-    nodes=nodes.filter(node=>node.username!=username)
-    if (nodes) await dsDigger.addSiblings(username,nodes);
-    setDS({ ...dsDigger.ds });
-  };
+    const addSiblingNodes = async (nodes, username) => {
+      nodes = nodes.filter(node => node.username != username)
+      if (nodes) await dsDigger.addSiblings(username, nodes);
+      setDS({ ...dsDigger.ds });
+    };
 
-  const addRootNode = async (node) => {
-    const resp=await axios.get(`http://localhost:8080/api/manager/${node}`)
-    console.log(resp.data)
-    if (resp.data){
-    const {reportee,...root}=resp.data;
-    dsDigger.addRoot(root);
-    addSiblingNodes(resp.data.reportee,node);
-    setDS({ ...dsDigger.ds });
-    }
-  };
+    const addRootNode = async (node) => {
+      const resp = await axios.get(`http://localhost:8080/api/manager/${node}`)
+      console.log(resp.data)
+      if (resp.data) {
+        const { reportee, ...root } = resp.data;
+        dsDigger.addRoot(root);
+        addSiblingNodes(resp.data.reportee, node);
+        setDS({ ...dsDigger.ds });
+      }
+    };
 
     const panEndHandler = () => {
       setPanning(false);
@@ -226,7 +212,7 @@ const ChartContainer = forwardRef(
     };
 
     const zoomHandler = (e) => {
-      let newScale =  1 + (e.deltaY > 0 ? -0.07 : 0.07);
+      let newScale = 1 + (e.deltaY > 0 ? -0.07 : 0.07);
       updateChartScale(newScale);
     };
 
@@ -236,15 +222,15 @@ const ChartContainer = forwardRef(
       const doc =
         canvasWidth > canvasHeight
           ? new jsPDF({
-              orientation: "landscape",
-              unit: "px",
-              format: [canvasWidth, canvasHeight],
-            })
+            orientation: "landscape",
+            unit: "px",
+            format: [canvasWidth, canvasHeight],
+          })
           : new jsPDF({
-              orientation: "portrait",
-              unit: "px",
-              format: [canvasHeight, canvasWidth],
-            });
+            orientation: "portrait",
+            unit: "px",
+            format: [canvasHeight, canvasWidth],
+          });
       doc.addImage(canvas.toDataURL("image/jpeg", 1.0), "JPEG", 0, 0);
       doc.save(exportFilename + ".pdf");
     };
@@ -336,19 +322,19 @@ const ChartContainer = forwardRef(
           onMouseDown={pan ? panStartHandler : undefined}
           onMouseMove={pan && panning ? panHandler : undefined}
         >
-          <ul>
-            <ChartNode
-              datasource={attachRel(ds, "00")}
-              addChild={addChildNodes}
-              addParent={addRootNode}
-              NodeTemplate={NodeTemplate}
-              draggable={draggable}
-              collapsible={collapsible}
-              multipleSelect={multipleSelect}
-              changeHierarchy={changeHierarchy}
-              onClickNode={onClickNode}
-            />
-          </ul>
+          {datasource &&
+            <ul>
+              <ChartNode
+                datasource={attachRel(ds, "00")}
+                addChild={addChildNodes}
+                addParent={addRootNode}
+                NodeTemplate={NodeTemplate}
+                collapsible={collapsible}
+                changeHierarchy={changeHierarchy}
+                onClickNode={onClickNode}
+              />
+            </ul>
+          }
         </div>
         <a
           className="oc-download-btn hidden"
@@ -367,6 +353,5 @@ const ChartContainer = forwardRef(
 );
 
 ChartContainer.propTypes = propTypes;
-ChartContainer.defaultProps = defaultProps;
 
 export default ChartContainer;

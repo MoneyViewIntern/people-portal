@@ -1,5 +1,4 @@
 "use client";
-import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -7,7 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useAuthContext } from "@/context/auth-context";
 export const Heading = () => {
   // const { isSignedIn, user, isLoaded } = useUser();
-  const {isSignedIn} = useAuthContext();
+  const { isSignedIn } = useAuthContext();
   const handleAuth = useAuth().onOpen;
   return (
     <div className=" max-w-3xl space-y-4">
@@ -28,10 +27,10 @@ export const Heading = () => {
         </Button>
       )}
       {!isSignedIn && (
-          <Button onClick={handleAuth}>
-            Sign In to People Portal
-            <ArrowRight className="h-4 w-4 ml-2" />
-          </Button>
+        <Button onClick={handleAuth}>
+          Sign In to People Portal
+          <ArrowRight className="h-4 w-4 ml-2" />
+        </Button>
       )}
     </div>
   );

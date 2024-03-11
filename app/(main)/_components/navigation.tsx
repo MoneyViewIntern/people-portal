@@ -1,7 +1,6 @@
 "use client";
-
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon, Search, Settings, User } from "lucide-react";
+import { ChevronsLeft, Search, Settings, User } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { ElementRef, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -13,7 +12,6 @@ import { useSettings } from "@/hooks/use-settings";
 import { Navbar } from "./navbar";
 import { useAuthContext } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
-import UserCard from "./user-card";
 import { useProfile } from "@/hooks/use-profile";
 const Navigation = () => {
   const { signOut } = useAuthContext();
@@ -43,8 +41,8 @@ const Navigation = () => {
     if (!isResizingRef.current) return;
 
     let newWidth = e.clientX;
-    if (newWidth < 340) newWidth = 340;
-    if (newWidth > 640) newWidth = 640;
+    if (newWidth < 440) newWidth = 440;
+    if (newWidth > 700) newWidth = 700;
 
     if (sidebarRef.current && navbarRef.current) {
       sidebarRef.current.style.width = `${newWidth}px`;
@@ -71,9 +69,9 @@ const Navigation = () => {
     if (sidebarRef.current && navbarRef.current) {
       setIsCollapsed(false);
       setIsResetting(true);
-      sidebarRef.current.style.width = isMobile ? "100%" : "440px";
-      navbarRef.current.style.width = isMobile ? "0" : "calc(100% - 440px)";
-      navbarRef.current.style.left = isMobile ? "100%" : "440px";
+      sidebarRef.current.style.width = isMobile ? "100%" : "540px";
+      navbarRef.current.style.width = isMobile ? "0" : "calc(100% - 540px)";
+      navbarRef.current.style.left = isMobile ? "100%" : "540px";
       setTimeout(() => setIsResetting(false), 300);
     }
   };
@@ -93,7 +91,7 @@ const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-full bg-secondary overflow-y-hidden relative flex w-60 flex-col z-[99999]",
+          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[99999]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "w-0"
         )}
@@ -109,30 +107,16 @@ const Navigation = () => {
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div className="h-full space-y-3">
-          <UserItem />
           <Item label="Search" icon={Search} isSearch onClick={handleSearch} />
           <Item label="Settings" icon={Settings} onClick={handleSettings} />
           <Item label="Profile" icon={User} onClick={handleProfile} />
-          <div>
-          {/* <UserCard /> */}
-          </div>
+          <div></div>
         </div>
         <div
           onMouseDown={handleMouseDown}
           onClick={resetWidth}
           className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1.5 bg-primary/10 right-0 top-0"
         />
-
-        {/* <div className="absolute bottom-0 ml-[40%]">07</div> */}
-        <div className=" flex justify-center bottom-0 h-16">
-          <Button
-            className="h-16 w-[80%] cursor-pointer text-muted-foreground hover:bg-primary/5 text-md"
-            onClick={signOut}
-            variant={"ghost"}
-          >
-            Sign Out
-          </Button>
-        </div>
       </aside>
       <div
         ref={navbarRef}
@@ -142,18 +126,9 @@ const Navigation = () => {
           isMobile && "left-0 w-full"
         )}
       >
-        <nav className="bg-transparent px-3 py-2 w-full">
+        <nav className="bg-transparent w-full">
           {isCollapsed && (
-      //       <div className="flex justify-between py-auto">
-      //       <MenuIcon
-      //         onClick={resetWidth}
-      //         role="button"
-      //         className="h-6 w-6 text-muted-foreground"
-      //       />
-      //       <p> Arihant </p>
-      //       </div>
-
-      <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+            <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
           )}
         </nav>
       </div>

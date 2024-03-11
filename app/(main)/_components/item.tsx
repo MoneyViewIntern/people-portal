@@ -36,10 +36,7 @@ export default Item;
 
 Item.Skeleton = function ItemSkeleton() {
   return (
-    <div
-      style={{ paddingLeft: "12px" }}
-      className="flex gap-x-2 py-[3px]"
-    >
+    <div style={{ paddingLeft: "12px" }} className="flex gap-x-2 py-[3px]">
       <Skeleton className="h-4 w-4" />
       <Skeleton className="h-4 w-[30%]" />
     </div>

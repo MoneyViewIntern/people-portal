@@ -1,6 +1,6 @@
 "use client";
 
-import { Building, Shield} from "lucide-react";
+import { Building, Shield } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -27,12 +27,10 @@ const NodeTemplate = ({
     <TooltipProvider>
       <div className="select-none flex gap-y-2 flex-col w-[180px]  border-2  bg-secondary/60 shadow-md py-2">
         <div className="flex items-center justify-center">
-          <div className="h-8 w-8">
-            <img
-              src={displayImg ? displayImg : PROFILE_IMAGE_URL}
-              className="rounded-full border-2  h-8 w-8"
-            />
-          </div>
+          <img
+            src={displayImg ? displayImg : PROFILE_IMAGE_URL}
+            className="rounded-full border-2  h-8 w-8"
+          />
           <Tooltip>
             <TooltipTrigger>
               <p className="mt-[1px] ml-2 font-bold text-[16px] text-gray-500 hover:text-black cursor-pointer dark:text-white ">

@@ -24,7 +24,7 @@ const UserItem = () => {
       <DropdownMenuTrigger asChild>
         <div
           role="button"
-          className="flex items-center text-md py-6 p-3 w-full hover:bg-primary/5"
+          className="flex items-center text-md p-3 w-full hover:bg-primary/5 bg-[#1f1f1f]"
         >
           <div className="gap-x-3 flex items-center max-w-[250px]">
             <Avatar className="h-9 w-9">

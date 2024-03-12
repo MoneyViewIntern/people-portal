@@ -1,10 +1,17 @@
 "use client";
+
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, Search, Settings, User } from "lucide-react";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { ElementRef, useRef, useState } from "react";
+import { ChevronsLeft, Pen, Search, Settings, User } from "lucide-react";
+import { usePathname } from "next/navigation";
+import {
+  ElementRef,
+  useRef,
+  useState,
+  useCallback,
+  memo,
+  useEffect,
+} from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { useEffect } from "react";
 import UserItem from "./user-item";
 import Item from "./item";
 import { useSearch } from "@/hooks/use-search";
@@ -13,87 +20,101 @@ import { Navbar } from "./navbar";
 import { useAuthContext } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
 import { useProfile } from "@/hooks/use-profile";
-const Navigation = () => {
+import EmployeeDetails from "./_profile-components/EmployeeDetails";
+import EmployeeProfilePic from "./_profile-components/EmployeeProfilePic";
+import EmployeeTags from "./_profile-components/EmployeeTags";
+import Image from "next/image";
+import { useProfileEdit } from "@/hooks/use-profile-edit";
+
+const Navigation = memo(() => {
   const { signOut } = useAuthContext();
-  const router = useRouter();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 769px)");
-  const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
 
-  const handleSearch = useSearch().onOpen;
-  const handleSettings = useSettings().onOpen;
   const handleProfile = useProfile().onOpen;
+  const handleProfileEdit = useProfileEdit().onOpen;
+
+  const collapse = useCallback(() => {
+    if (!sidebarRef.current || !navbarRef.current) return;
+
+    setIsCollapsed(true);
+    setIsResetting(true);
+    sidebarRef.current.style.width = "0";
+    navbarRef.current.style.width = "100%";
+    navbarRef.current.style.left = "0";
+    setTimeout(() => setIsResetting(false), 300);
+  }, [sidebarRef, navbarRef]);
+
+  const resetWidth = useCallback(() => {
+    if (!sidebarRef.current || !navbarRef.current) return;
+
+    setIsCollapsed(false);
+    setIsResetting(true);
+    sidebarRef.current.style.width = isMobile ? "100%" : "550px";
+    navbarRef.current.style.width = isMobile ? "0" : "calc(100% - 550px)";
+    navbarRef.current.style.left = isMobile ? "100%" : "550px";
+    setTimeout(() => setIsResetting(false), 300);
+  }, [isMobile, sidebarRef, navbarRef]);
 
   useEffect(() => {
     if (isMobile) collapse();
     else resetWidth();
-  }, [isMobile]);
+  }, [isMobile, collapse, resetWidth]);
 
   useEffect(() => {
     if (isMobile) collapse();
-  }, [pathname, isMobile]);
+  }, [pathname, isMobile, collapse]);
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isResizingRef.current) return;
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!sidebarRef.current || !navbarRef.current) return;
 
-    let newWidth = e.clientX;
-    if (newWidth < 440) newWidth = 440;
-    if (newWidth > 700) newWidth = 700;
+      let newWidth = e.clientX;
+      newWidth = Math.max(350, Math.min(840, newWidth));
 
-    if (sidebarRef.current && navbarRef.current) {
       sidebarRef.current.style.width = `${newWidth}px`;
-      navbarRef.current.style.setProperty("left", `${newWidth}px`);
-      navbarRef.current.style.setProperty("width", `calc(100%- ${newWidth}px)`);
-    }
-  };
-  const handleMouseUp = () => {
-    isResizingRef.current = false;
+      navbarRef.current.style.left = `${newWidth}px`;
+      navbarRef.current.style.width = `calc(100% - ${newWidth}px)`;
+    },
+    [sidebarRef, navbarRef]
+  );
+
+  useEffect(() => {
+    resetWidth();
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
-  };
+  }, [handleMouseMove]);
 
-  const handleMouseDown = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    event.stopPropagation();
-    isResizingRef.current = true;
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
-  const resetWidth = () => {
-    if (sidebarRef.current && navbarRef.current) {
-      setIsCollapsed(false);
-      setIsResetting(true);
-      sidebarRef.current.style.width = isMobile ? "100%" : "540px";
-      navbarRef.current.style.width = isMobile ? "0" : "calc(100% - 540px)";
-      navbarRef.current.style.left = isMobile ? "100%" : "540px";
-      setTimeout(() => setIsResetting(false), 300);
-    }
-  };
-  const collapse = () => {
-    if (sidebarRef.current && navbarRef.current) {
-      setIsCollapsed(true);
-      setIsResetting(true);
-      sidebarRef.current.style.width = "0";
-      navbarRef.current.style.width = "100%";
-      navbarRef.current.style.left = "0";
-      setTimeout(() => setIsResetting(false), 300);
-    }
-  };
+  const handleMouseDown = useCallback(
+    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      event.preventDefault();
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    },
+    [handleMouseMove, handleMouseUp]
+  );
+
+  // for profile
+  const [showEditPage, setShowEditPgae] = useState(false);
+  const handleClose = () => setShowEditPgae(false);
+  const handleShow = () => setShowEditPgae(true);
 
   return (
     <>
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[99999]",
+          "group/sidebar h-full bg-secondary overflow-y-auto relative flex flex-col z-[99999]",
           isResetting && "transition-all ease-in-out duration-300",
-          isMobile && "w-0"
+          isMobile && "w-0",
+          isCollapsed && "opacity-0 transition-all ease-in-out duration-500"
         )}
       >
         <div
@@ -107,10 +128,36 @@ const Navigation = () => {
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div className="h-full space-y-3">
-          <Item label="Search" icon={Search} isSearch onClick={handleSearch} />
-          <Item label="Settings" icon={Settings} onClick={handleSettings} />
-          <Item label="Profile" icon={User} onClick={handleProfile} />
-          <div></div>
+          <div className="h-[3.85rem] dark:bg-[#1f1f1f] flex items-center">
+            <div className="w-12 h-12 mr-2">
+              <Image src="/images/logo.svg" alt="logo" width={50} height={50} />
+            </div>
+            <p className="text-green-500">People Portal</p>
+          </div>
+
+          {/* profile has been inserted here  */}
+          <div className="flex justify-center">
+            <p className="text-2xl flex justify-center items-center">
+              Arihant Agnihotri
+              <Pen
+                className="hover:cursor-pointer ml-5"
+                onClick={handleProfileEdit}
+              />
+            </p>
+          </div>
+
+          <div>
+            <EmployeeProfilePic
+              defaultPfp="/images/emp1.jpeg"
+              avatarPfp="/images/emp2.jpeg"
+            />
+          </div>
+          <div>
+            <EmployeeDetails />
+          </div>
+          <div>
+            <EmployeeTags />
+          </div>
         </div>
         <div
           onMouseDown={handleMouseDown}
@@ -118,6 +165,7 @@ const Navigation = () => {
           className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1.5 bg-primary/10 right-0 top-0"
         />
       </aside>
+
       <div
         ref={navbarRef}
         className={cn(
@@ -127,13 +175,11 @@ const Navigation = () => {
         )}
       >
         <nav className="bg-transparent w-full">
-          {isCollapsed && (
-            <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
-          )}
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
         </nav>
       </div>
     </>
   );
-};
+});
 
 export default Navigation;

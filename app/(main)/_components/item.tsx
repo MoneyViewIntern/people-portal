@@ -20,14 +20,6 @@ const Item = ({ label, onClick, icon: Icon, isSearch }: ItemProps) => {
     >
       <Icon className="shrink-0 h-[20px] w-[20px] mr-2 text-muted-foreground" />
       <span className="truncate">{label}</span>
-      {isSearch && (
-        <kbd
-          className="ml-auto pointer-events-none inline-flex h-7 select-none items-center gap-1 rounded border
-                bg-muted px-1.5 font-mono text-[20px] font-medium text-muted-foreground opacity-100"
-        >
-          <span className="text-xs">⌘ + k</span>
-        </kbd>
-      )}
     </div>
   );
 };
@@ -36,7 +28,10 @@ export default Item;
 
 Item.Skeleton = function ItemSkeleton() {
   return (
-    <div style={{ paddingLeft: "12px" }} className="flex gap-x-2 py-[3px]">
+    <div
+      style={{ paddingLeft: "12px" }}
+      className="flex gap-x-2 py-[3px]"
+    >
       <Skeleton className="h-4 w-4" />
       <Skeleton className="h-4 w-[30%]" />
     </div>

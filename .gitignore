@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+/.main-components-backup
 .pnp.js
 .yarn/install-state.gz
 

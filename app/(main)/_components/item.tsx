@@ -15,7 +15,7 @@ const Item = ({ label, onClick, icon: Icon, isSearch }: ItemProps) => {
       role="button"
       style={{ paddingLeft: "12px" }}
       className={
-        "select-none group min-h-[12px] text-md py-3 pr-3 w-full flex items-center text-muted-foreground font-medium  hover:bg-primary/5"
+        "rounded-full select-none group min-h-[12px] text-md py-3 pr-1 w-full flex items-center text-muted-foreground font-medium  hover:bg-primary/5"
       }
     >
       <Icon className="shrink-0 h-[20px] w-[20px] mr-2 text-muted-foreground" />

@@ -38,7 +38,6 @@ const UserPage = ({ params }: UsernamePageProps) => {
   }
 
   return (
-    <>
       <Organizationchart
         datasource={ds}
         NodeTemplate={NodeTemplate}
@@ -48,7 +47,6 @@ const UserPage = ({ params }: UsernamePageProps) => {
         onClickNode={readSelectedNode}
         onClickChart={clearSelectedNode}
       />
-    </>
   );
 };
 

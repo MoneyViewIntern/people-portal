@@ -6,6 +6,10 @@ import { Separator } from "../ui/seperator";
 import { useProfileEdit } from "@/hooks/use-profile-edit";
 import Image from "next/image";
 import { useState } from "react";
+import ProfileItem from "../profile-item";
+import { useAuthContext } from "@/context/auth-context";
+import axios from "axios";
+import { toast } from "sonner";
 
 export const ProfileEditModal = () => {
   const profile = useProfileEdit();
@@ -59,15 +63,26 @@ export const ProfileEditModal = () => {
     "wild peach",
     "wild strawberry",
   ];
-
+  const { viewedUser } = useAuthContext();
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
+    
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatarProfilePic(""); // Update avatarProfilePic with the uploaded image
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append('file', file);
+  
+      axios.post('http://localhost:8080/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response => {
+        console.log('File uploaded successfully:', response.data);
+      })
+      .catch(error => {
+        console.error('Error uploading file:', error);
+        toast.error("Error uploading file");
+      });
     }
   };
 
@@ -90,41 +105,61 @@ export const ProfileEditModal = () => {
     setUserTags(newTags);
     setSelectedTags(newTags);
   };
-
+ 
   return (
     <Dialog open={profile.isOpen} onOpenChange={profile.onClose}>
       <DialogContent className="md:h-[90%] h-full overflow-auto">
         <DialogHeader className="flex items-center border-b pb-3">
           <h2 className="text-xl font-bold">Edit Profile</h2>
         </DialogHeader>
-        <div className="flex items-center justify-center relative">
-  <img
-    src={avatarProfilePic}
-    onClick={() =>
-      document?.getElementById("profile-pic-input")?.click()
-    }
-    className="cursor-pointer rounded-full w-32 h-32"
-  />
+        <div className="flex items-center justify-center">
+          <img src={avatarProfilePic} className=" rounded-full w-32 h-32" />
 
-  <input
-    type="file"
-    onChange={handleFileChange}
-    style={{ display: "none" }}
-    accept="image/*"
-    id="profile-pic-input"
-  />
+          <input
+            type="file"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+            accept="image/*"
+            id="profile-pic-input"
+          />
 
-  <label htmlFor="profile-pic-input" className="h-6 w-6">
-    <div className="text-white absolute bottom-[9px] left-[155px] bg-primary/5 hover:bg-primary/50 h-32 w-32 p-5 rounded-full">
-      <Pen className="h-20 w-20" onClick={() =>
-        document?.getElementById("profile-pic-input")?.click()
-      }/>
-    </div>
-   
-  </label>
-</div>
-
+          <label
+            htmlFor="profile-pic-input"
+            className="flex mt-[20%] h-12 w-12"
+          >
+            <div className="flex items-center justify-center text-white hover:cursor-pointer bg-primary/5 hover:bg-primary/50 h-12 w-12 rounded-full">
+              <Pen
+                onClick={() =>
+                  document?.getElementById("profile-pic-input")?.click()
+                }
+              />
+            </div>
+          </label>
+        </div>
         <Separator />
+
+        <ProfileItem
+          name="Name"
+          description="What should we call you?"
+          value="Arihant Agnihotri"
+          isEditable={true}
+        />
+
+        <ProfileItem
+          name="Phone Number"
+          description="Your Personal Numbers"
+          value="+91-9044040088"
+          isEditable={true}
+        />
+        
+        <ProfileItem
+          name="Designation"
+          description="Your Role"
+          value="SDE"
+          isEditable={false}
+        />
+        
+
         <div className="mt-4">
           <h3 className="text-lg font-bold mb-2">Existing Tags</h3>
           <div className="flex flex-wrap gap-2">

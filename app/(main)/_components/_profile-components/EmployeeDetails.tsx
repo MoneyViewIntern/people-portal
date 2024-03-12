@@ -33,7 +33,7 @@ const EmployeeDetailItem = ({ label, value }: EmployeeDetailItemProps) => {
         <div className="mr-4 text-muted-foreground">
           {!copied ? (
             <ClipboardCopy
-              className="hover:cursor-pointer hover:text-[#0B8C4C]"
+              className="mt-2 hover:cursor-pointer hover:text-[#0B8C4C]"
               onClick={handleCopy}
             />
           ) : (

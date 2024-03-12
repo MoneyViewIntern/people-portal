@@ -84,7 +84,7 @@ const ProfileItem = ({
             size="icon"
             variant="ghost"
             className={cn(
-              "font-bold ml-28 rounded-full hover:text-foreground",
+              "font-bold ml-2 rounded-full hover:text-foreground",
               !isEditable && "hover:cursor-not-allowed text-muted-foreground"
             )}
             onClick={handleClick}

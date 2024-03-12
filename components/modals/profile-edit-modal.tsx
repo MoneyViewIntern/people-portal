@@ -64,7 +64,6 @@ export const ProfileEditModal = () => {
     "wild strawberry",
   ];
   const { viewedUser } = useAuthContext();
-  
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     

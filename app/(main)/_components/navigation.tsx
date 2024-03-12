@@ -172,6 +172,10 @@ const Navigation = memo(() => {
               avatarPfp={
                 (userDetails && userDetails.badgeImgUrl) || PROFILE_IMAGE_URL
               }
+
+              phoneNo={userDetails && userDetails.phoneNo || "1234567890"}
+
+              slackId={userDetails && userDetails.slackId || ""}
             />
           </div>
           <div>

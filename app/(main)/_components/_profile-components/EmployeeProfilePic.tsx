@@ -4,10 +4,14 @@ import { Download, Phone, Slack } from "lucide-react";
 interface EmployeeProfilePicProps {
   defaultPfp: any;
   avatarPfp: any;
+  phoneNo:any;
+  slackId:any;
 }
 export default function EmployeeProfilePic({
   defaultPfp,
   avatarPfp,
+  phoneNo,
+  slackId
 }: EmployeeProfilePicProps) {
   const [selectedImage, setSelectedImage] = useState("default");
   const [avatarPofilePic, setAvatarPofilePic] = useState(avatarPfp);
@@ -73,13 +77,13 @@ export default function EmployeeProfilePic({
             <div className="flex gap-x-5">
 
           <a
-            href="https://moneyview.slack.com/team/U06LCGZLXRT"
+            href={`slack://open?id=${slackId}`}
             target="_blank"
           >
             <Slack className=" m-2 hover:text-[#0B8C4C]" />
           </a>
 
-          <a href="tel:+91-9044040088">
+          <a href={`tel:+91-${phoneNo}`}>
             <Phone className=" m-2 hover:text-[#0B8C4C]" />
           </a>
           <a className="hover:cursor-pointer"> 

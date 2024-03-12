@@ -35,7 +35,7 @@ const ChartContainer = forwardRef(
       datasource,
       pan = false,
       zoom = false,
-      zoomoutLimit = 1,
+      zoomoutLimit = 0.4,
       zoominLimit = 2,
       containerClass = "",
       chartClass = "",

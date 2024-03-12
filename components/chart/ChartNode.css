@@ -57,6 +57,8 @@
   background-color: rgba(68, 157, 68, 0.19);
 }
 .orgchart ul li .oc-node:hover {
+  scale: 1.05;
+  transition: scale 1s ease;
 }
 /* excluding root node */
 .orgchart > ul > li > ul li > .oc-node::before {
@@ -238,21 +240,28 @@
 .orgchart .slide-up {
   opacity: 0;
   transform: translateY(-40px);
+
+  transition: transform 1s ease;
 }
 
 .orgchart .slide-down {
   opacity: 0;
   transform: translateY(40px);
+
+  transition: transform 1s ease;
 }
 
 .orgchart .slide-left {
   opacity: 0;
   transform: translateX(-130px);
+  transition: transform 1s ease;
 }
 
 .orgchart .slide-right {
   opacity: 0;
   transform: translateX(130px);
+
+  transition: transform 1s ease;
 }
 
 /* oci means organization chart icons */

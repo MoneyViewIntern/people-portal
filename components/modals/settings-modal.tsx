@@ -7,6 +7,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
 import { useAuthContext } from "@/context/auth-context";
+
 export const SettingsModal = () => {
   const settings = useSettings();
 

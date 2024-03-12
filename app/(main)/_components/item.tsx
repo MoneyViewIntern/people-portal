@@ -25,7 +25,6 @@ const Item = ({ label, onClick, icon: Icon, isSearch }: ItemProps) => {
           className="ml-auto pointer-events-none inline-flex h-7 select-none items-center gap-1 rounded border
                 bg-muted px-1.5 font-mono text-[20px] font-medium text-muted-foreground opacity-100"
         >
-          <span className="text-xs">⌘ + k</span>
         </kbd>
       )}
     </div>

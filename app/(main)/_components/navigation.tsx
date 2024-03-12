@@ -12,28 +12,35 @@ import {
   useEffect,
 } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import UserItem from "./user-item";
-import Item from "./item";
-import { useSearch } from "@/hooks/use-search";
-import { useSettings } from "@/hooks/use-settings";
 import { Navbar } from "./navbar";
 import { useAuthContext } from "@/context/auth-context";
-import { Button } from "@/components/ui/button";
 import { useProfile } from "@/hooks/use-profile";
 import EmployeeDetails from "./_profile-components/EmployeeDetails";
 import EmployeeProfilePic from "./_profile-components/EmployeeProfilePic";
 import EmployeeTags from "./_profile-components/EmployeeTags";
 import Image from "next/image";
 import { useProfileEdit } from "@/hooks/use-profile-edit";
+import axios from "axios";
+
+import { PROFILE_IMAGE_URL } from "@/Constants/constants";
+
+const fetchUserDetails = async (username: any) => {
+  const { data } = await axios.get(
+    `http://localhost:8080/api/user/${username}`
+  );
+  console.log(data);
+  return data;
+};
 
 const Navigation = memo(() => {
-  const { signOut } = useAuthContext();
+  const { signOut, viewedUser, currentUser } = useAuthContext();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 769px)");
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
+  const [userDetails, setUserDetails] = useState({});
 
   const handleProfile = useProfile().onOpen;
   const handleProfileEdit = useProfileEdit().onOpen;
@@ -87,6 +94,13 @@ const Navigation = memo(() => {
     resetWidth();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const userData = await fetchUserDetails(viewedUser);
+      setUserDetails(userData);
+    })();
+  }, [viewedUser]);
+
   const handleMouseUp = useCallback(() => {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
@@ -136,27 +150,37 @@ const Navigation = memo(() => {
           </div>
 
           {/* profile has been inserted here  */}
+
           <div className="flex justify-center">
             <p className="text-2xl flex justify-center items-center">
-              Arihant Agnihotri
-              <Pen
-                className="hover:cursor-pointer ml-5"
-                onClick={handleProfileEdit}
-              />
+              {userDetails.name}
+
+              {currentUser === viewedUser && (
+                <Pen
+                  className="hover:cursor-pointer ml-5"
+                  onClick={handleProfileEdit}
+                />
+              )}
             </p>
           </div>
 
           <div>
             <EmployeeProfilePic
-              defaultPfp="/images/emp1.jpeg"
-              avatarPfp="/images/emp2.jpeg"
+              defaultPfp={
+                (userDetails && userDetails.displayImgUrl) || PROFILE_IMAGE_URL
+              }
+              avatarPfp={
+                (userDetails && userDetails.badgeImgUrl) || PROFILE_IMAGE_URL
+              }
             />
           </div>
           <div>
-            <EmployeeDetails />
+            <EmployeeDetails empDetails={userDetails} />
           </div>
           <div>
-            <EmployeeTags />
+            <EmployeeTags
+              tags={(userDetails && userDetails.assignedTags) || []}
+            />
           </div>
         </div>
         <div

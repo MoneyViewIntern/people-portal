@@ -1,16 +1,9 @@
 import { ClipboardCopy, ClipboardPlus, Pen } from "lucide-react";
-import React from "react";
+import React, { use, useEffect } from "react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-// Define an object containing employee details
-const employeeDetails = {
-  "Email": "agarwaljay642@gmail.com",
-  "Designation": "Software Engineer",
-  "Level": "Senior",
-  "Phone Number": "123-456-7890",
-  "Tenure": "5 years",
-};
+
 
 interface EmployeeDetailItemProps {
   label: string;
@@ -32,7 +25,9 @@ const EmployeeDetailItem = ({ label, value }: EmployeeDetailItemProps) => {
     <div className="flex flex-col gap-y-4 pt-6  p-1">
       <div className="flex justify-between">
         <div>
-          <div className=" text-md text-muted-foreground font-semibold">{label}</div>
+          <div className=" text-md text-muted-foreground font-semibold">
+            {label}
+          </div>
           <div className="text-sm">{value}</div>
         </div>
         <div className="mr-4 text-muted-foreground">
@@ -50,10 +45,25 @@ const EmployeeDetailItem = ({ label, value }: EmployeeDetailItemProps) => {
   );
 };
 
-export default function EmployeeDetails() {
+export default function EmployeeDetails({empDetails}:{
+  empDetails:any
+}) {
+  const [showData,setShowData]=useState({});
+
+  useEffect(()=>{
+    const newObj={
+      "Username":empDetails.username,
+      "Email":empDetails.email,
+      "Name":empDetails.name,
+      "Designation":empDetails.designation,
+      "Level":empDetails.level
+    }
+
+    setShowData(newObj);
+  },[empDetails])
   return (
     <main className=" pl-4">
-      {Object.entries(employeeDetails).map(([label, value], index) => (
+      {showData && Object.entries(showData).map(([label, value], index) => (
         <EmployeeDetailItem key={index} label={label} value={value} />
       ))}
     </main>

@@ -11,7 +11,8 @@ interface UsernamePageProps {
 }
 const UserPage = ({ params }: UsernamePageProps) => {
   const [ds, setDs] = useState({});
-  const { isSignedIn } = useAuthContext();
+  const { isSignedIn,setViewedUser,currentUser } = useAuthContext();
+
   const apiCall = async () => {
     var resp = await axios.get(`http://localhost:8080/api/user/manager/${params.username}`);
     if (!resp.data)
@@ -26,8 +27,15 @@ const UserPage = ({ params }: UsernamePageProps) => {
   }, []);
   const [selectedNodes, setSelectedNodes] = useState(new Set());
   const readSelectedNode = (nodeData: any) => {
+    console.log(nodeData);
+    setViewedUser(nodeData.username)
     setSelectedNodes(new Set([nodeData]));
   };
+
+  const clearSelectedNode=()=>{
+    setViewedUser(currentUser)
+    setSelectedNodes(new Set());
+  }
 
   return (
     <>
@@ -38,6 +46,7 @@ const UserPage = ({ params }: UsernamePageProps) => {
         zoom={true}
         zoominLimit={1}
         onClickNode={readSelectedNode}
+        onClickChart={clearSelectedNode}
       />
     </>
   );

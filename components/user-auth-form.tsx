@@ -16,7 +16,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { isSignedIn, currentUser, setCurrentUser, setIsSignedIn } = useAuthContext();
+  const { isSignedIn, currentUser,viewedUser, setIsSignedIn,setCurrentUser, setViewedUser  } = useAuthContext();
  const {onClose} = useAuth();
   async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -31,6 +31,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       if (response.status === 200 && response.data === true) {
         setIsSignedIn(true); // User found
         setCurrentUser(username);
+        setViewedUser(username);
         toast.success("Logged in successfully!");
         onClose();
 
@@ -47,13 +48,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       setIsLoading(false);
     }
   }
-
-  // Dummy function to set loading button state
-  // async function handleSubmit(event: React.SyntheticEvent){
-  //     event.preventDefault();
-  //     setIsLoading(true);
-  //     setTimeout(()=>{setIsLoading(false)},500);
-  // }
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>

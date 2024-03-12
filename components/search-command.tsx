@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearch } from "@/hooks/use-search";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   CommandDialog,
@@ -10,30 +10,32 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "./ui/command";
 import { useAuthContext } from "@/context/auth-context";
 import axios from "axios";
-import { File, User } from "lucide-react";
 import { PROFILE_IMAGE_URL } from "@/Constants/constants";
+import { Tag, Users } from "lucide-react";
 
 const fetchName = async (value: string) => {
   const resp = await axios.get(`http://localhost:8080/api/search?e=${value}`);
   console.log(resp);
   return resp.data;
 };
-
+const fetchTag = async (value: string) => {
+  const resp = await axios.get(`http://localhost:8080/api/search?t=${value}`);
+  console.log(resp);
+  return resp.data;
+};
 export const SearchCommand = () => {
-  const { currentUser } = useAuthContext();
+  const { currentUser, viewedUser, setViewedUser } = useAuthContext();
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
-  const [query, setQuery] = useState("");
-  const [searched, setSearched] = useState([]);
+  const [searchedEmployee, setSearchedEmployee] = useState([]);
+  const [searchedTag, setSearchedTag] = useState([]);
   const toggle = useSearch((store) => store.toggle);
   const isOpen = useSearch((store) => store.isOpen);
   const onClose = useSearch((store) => store.onClose);
 
-  //preventing rendering on server side so that shadcn command component does not cause hydration error
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -49,28 +51,33 @@ export const SearchCommand = () => {
     return () => document.removeEventListener("keydown", down);
   }, [toggle]);
 
-  // const handleSelect = (id: string) => {
-  //   router.push(`/user/${id}`);
-  //   onClose();
-  // };
   const handleChange = async (e: any) => {
     if (e.target.value.length === 1) {
-      const data = await fetchName(e.target.value);
-      setSearched(data);
+      const empData = await fetchName(e.target.value);
+      const tagData = await fetchTag(e.target.value);
+      setSearchedTag(tagData);
+      setSearchedEmployee(empData);
     }
     if (e.target.value.length === 0) {
-      setSearched([]);
+      setSearchedEmployee([]);
+      setSearchedTag([]);
     }
-    console.log(searched);
+    console.log(searchedTag);
+    console.log(searchedEmployee);
     console.log(e.target.value);
   };
   const handleSelect = (item: any) => {
     console.log("ITEM CLICKED");
     console.log(item);
-    router.push(`/user/${item.username}`);
+    setViewedUser(item.username);
+    toggle();
+    setViewedUser((prevUser) => {
+      console.log(`Viewed user : ${prevUser}`);
+      return item.username;
+    });
   };
-  if (!isMounted) return null;
 
+  if (!isMounted) return null;
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
       <CommandInput
@@ -80,8 +87,8 @@ export const SearchCommand = () => {
 
       <CommandList>
         <CommandEmpty>No results found</CommandEmpty>
-        <CommandGroup heading={"Users"}>
-          {searched?.map((item: any, key) => (
+        <CommandGroup heading={`Users`}>
+          {searchedEmployee?.map((item: any, key) => (
             <CommandItem key={key} value={item.name}>
               <div
                 className="w-full flex justify-between hover:cursor-pointer"
@@ -105,6 +112,28 @@ export const SearchCommand = () => {
                   <p className="ml-2 text-muted-foreground">
                     {" "}
                     @{item.username}{" "}
+                  </p>
+                </div>
+              </div>
+            </CommandItem>
+          ))}
+        </CommandGroup>
+        <CommandGroup heading={`Tags`}>
+          {searchedTag?.map((item: any, key) => (
+            <CommandItem key={key} value={item.name}>
+              <div
+                className="w-full flex justify-between"
+                // onClick={() => handleSelect(item)}
+              >
+                <div className="flex">
+                  <Tag className="mr-2 h-1 w-1" />
+                  <p>{item.name} </p>
+                </div>
+                <div className="flex flex-between items-center">
+                  <Users />
+                  <p className="ml-2 text-muted-foreground">
+                    {" "}
+                    {item.memberCount}{" "}
                   </p>
                 </div>
               </div>

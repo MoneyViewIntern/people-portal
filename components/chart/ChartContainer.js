@@ -28,7 +28,6 @@ const propTypes = {
   onClickChart: PropTypes.func,
 };
 
-
 /* trunk-ignore(eslint/react/display-name) */
 const ChartContainer = forwardRef(
   (
@@ -45,7 +44,7 @@ const ChartContainer = forwardRef(
       onClickNode,
       onClickChart,
     },
-    ref,
+    ref
   ) => {
     const container = useRef();
     const chart = useRef();
@@ -88,23 +87,27 @@ const ChartContainer = forwardRef(
       }
     };
 
-
     const addChildNodes = async (node) => {
-      const resp = await axios.get(`http://localhost:8080/api/reportee/${node}`)
+      const resp = await axios.get(
+        `http://localhost:8080/api/user/reportee/${node}`
+      );
       console.log(resp.data);
       if (resp.data.length) await dsDigger.addChildren(node, resp.data);
       setDS({ ...dsDigger.ds });
     };
 
     const addSiblingNodes = async (nodes, username) => {
-      nodes = nodes.filter(node => node.username != username)
-      if (nodes) await dsDigger.addSiblings(username, nodes);
+      nodes = nodes.filter((node) => node.username != username);
+      console.log(nodes);
+      if (nodes.length) await dsDigger.addSiblings(username, nodes);
       setDS({ ...dsDigger.ds });
     };
 
     const addRootNode = async (node) => {
-      const resp = await axios.get(`http://localhost:8080/api/manager/${node}`)
-      console.log(resp.data)
+      const resp = await axios.get(
+        `http://localhost:8080/api/user/manager/${node}`
+      );
+      console.log(resp.data);
       if (resp.data) {
         const { reportee, ...root } = resp.data;
         dsDigger.addRoot(root);
@@ -137,7 +140,7 @@ const ChartContainer = forwardRef(
           setTransform("matrix(1,0,0,1," + newX + "," + newY + ")");
         } else {
           setTransform(
-            "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + newX + ", " + newY + ",0,1)",
+            "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + newX + ", " + newY + ",0,1)"
           );
         }
       } else {
@@ -222,15 +225,15 @@ const ChartContainer = forwardRef(
       const doc =
         canvasWidth > canvasHeight
           ? new jsPDF({
-            orientation: "landscape",
-            unit: "px",
-            format: [canvasWidth, canvasHeight],
-          })
+              orientation: "landscape",
+              unit: "px",
+              format: [canvasWidth, canvasHeight],
+            })
           : new jsPDF({
-            orientation: "portrait",
-            unit: "px",
-            format: [canvasHeight, canvasWidth],
-          });
+              orientation: "portrait",
+              unit: "px",
+              format: [canvasHeight, canvasWidth],
+            });
       doc.addImage(canvas.toDataURL("image/jpeg", 1.0), "JPEG", 0, 0);
       doc.save(exportFilename + ".pdf");
     };
@@ -289,19 +292,19 @@ const ChartContainer = forwardRef(
             setExporting(false);
             container.current.scrollLeft = originalScrollLeft;
             container.current.scrollTop = originalScrollTop;
-          },
+          }
         );
       },
       expandAllNodes: () => {
         chart.current
           .querySelectorAll(
-            ".oc-node.hidden, .oc-hierarchy.hidden, .isSiblingsCollapsed, .isAncestorsCollapsed",
+            ".oc-node.hidden, .oc-hierarchy.hidden, .isSiblingsCollapsed, .isAncestorsCollapsed"
           )
           .forEach((el) => {
             el.classList.remove(
               "hidden",
               "isSiblingsCollapsed",
-              "isAncestorsCollapsed",
+              "isAncestorsCollapsed"
             );
           });
       },
@@ -322,7 +325,7 @@ const ChartContainer = forwardRef(
           onMouseDown={pan ? panStartHandler : undefined}
           onMouseMove={pan && panning ? panHandler : undefined}
         >
-          {datasource &&
+          {datasource && (
             <ul>
               <ChartNode
                 datasource={attachRel(ds, "00")}
@@ -334,7 +337,7 @@ const ChartContainer = forwardRef(
                 onClickNode={onClickNode}
               />
             </ul>
-          }
+          )}
         </div>
         <a
           className="oc-download-btn hidden"
@@ -349,7 +352,7 @@ const ChartContainer = forwardRef(
         </div>
       </div>
     );
-  },
+  }
 );
 
 ChartContainer.propTypes = propTypes;

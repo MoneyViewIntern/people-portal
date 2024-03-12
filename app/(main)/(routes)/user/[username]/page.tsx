@@ -13,9 +13,7 @@ const UserPage = ({ params }: UsernamePageProps) => {
   const [ds, setDs] = useState({});
   const { isSignedIn } = useAuthContext();
   const apiCall = async () => {
-    var resp = await axios.get(
-      `http://localhost:8080/api/manager/${params.username}`
-    );
+    var resp = await axios.get(`http://localhost:8080/api/user/manager/${params.username}`);
     if (!resp.data)
       await axios.get(`http://localhost:8080/api/user/${params.username}`);
     return resp.data;

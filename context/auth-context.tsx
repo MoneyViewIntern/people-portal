@@ -4,8 +4,10 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 interface AuthContextType {
   isSignedIn: boolean;
   currentUser: string;
-  setCurrentUser: React.Dispatch<React.SetStateAction<string>>;
+  viewedUser : string;
   setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<string>>;
+  setViewedUser: React.Dispatch<React.SetStateAction<string>>;
   signOut: () => void;
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,14 +25,19 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<string>(() => {
     return localStorage.getItem("currentUser") || "";
   });
+  const [viewedUser, setViewedUser] = useState<string>(() => {
+    return localStorage.getItem("viewedUser") || "";
+  });
   useEffect(() => {
     localStorage.setItem("isSignedIn", JSON.stringify(isSignedIn));
     localStorage.setItem("currentUser", currentUser);
-  }, [isSignedIn, currentUser]);
+    localStorage.setItem("viewedUser", viewedUser);
+  }, [isSignedIn, currentUser, viewedUser]);
 
   const signOut = () => {
     setIsSignedIn(false);
     setCurrentUser("");
+    setViewedUser("");
     localStorage.clear();
   };
   return (
@@ -38,8 +45,10 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       value={{
         isSignedIn,
         currentUser,
-        setCurrentUser,
+        viewedUser,
         setIsSignedIn,
+        setCurrentUser,
+        setViewedUser,
         signOut,
       }}
     >

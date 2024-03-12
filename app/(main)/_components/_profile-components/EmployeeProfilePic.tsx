@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
 import { useDownload } from "@/hooks/use-download";
-import { Download, Phone, Slack } from "lucide-react";
+import { Download, Mail, Phone, Slack } from "lucide-react";
 interface EmployeeProfilePicProps {
   defaultPfp: any;
   avatarPfp: any;
   phoneNo:any;
   slackId:any;
+  email : any;
 }
 export default function EmployeeProfilePic({
   defaultPfp,
   avatarPfp,
   phoneNo,
-  slackId
+  slackId,
+  email,
 }: EmployeeProfilePicProps) {
   const [selectedImage, setSelectedImage] = useState("default");
   const [avatarPofilePic, setAvatarPofilePic] = useState(avatarPfp);
-  const [currentUser, setCurrentUser] = useState("jay");
   const [userSwitched, setUserSwitched] = useState(false);
 
   const handleDownload = useDownload().onOpen;
@@ -62,8 +63,6 @@ export default function EmployeeProfilePic({
     }
   };
 
-  let name = "Arihant";
-
   return (
     <main className="flex flex-col">
       <div className="mx-auto">
@@ -85,6 +84,12 @@ export default function EmployeeProfilePic({
 
           <a href={`tel:+91-${phoneNo}`}>
             <Phone className=" m-2 hover:text-[#0B8C4C]" />
+          </a>
+          <a
+            href={`mailto:${email}`}
+            target="_blank"
+          >
+            <Mail className=" m-2 hover:text-[#0B8C4C]" />
           </a>
           <a className="hover:cursor-pointer"> 
           <Download

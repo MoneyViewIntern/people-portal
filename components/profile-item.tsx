@@ -1,16 +1,9 @@
 "use client";
-
 import { Pen } from "lucide-react";
 import { Button } from "./ui/button";
-import { Label } from "./ui/label";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import {TooltipProvider} from "@/components/ui/tooltip";
 import { useRef, useState } from "react";
 import { Input } from "./ui/input";
 

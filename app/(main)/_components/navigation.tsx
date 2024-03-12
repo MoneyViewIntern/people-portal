@@ -35,12 +35,20 @@ const fetchUserDetails = async (username: any) => {
 const Navigation = memo(() => {
   const { signOut, viewedUser, currentUser } = useAuthContext();
   const pathname = usePathname();
-  const isMobile = useMediaQuery("(max-width: 769px)");
+  const isMobile = useMediaQuery("(max-width: 1234px)");
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
-  const [userDetails, setUserDetails] = useState({});
+  const [userDetails, setUserDetails] = useState({
+    name: "",
+    displayImgUrl: "",
+    badgeImgUrl: "",
+    phoneNo: "",
+    slackId: "",
+    email: "",
+    assignedTags: [],
+  });
 
   const handleProfile = useProfile().onOpen;
   const handleProfileEdit = useProfileEdit().onOpen;
@@ -135,21 +143,20 @@ const Navigation = memo(() => {
           onClick={collapse}
           role="button"
           className={cn(
-            "h-7 w-7 flex items-center justify-center text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+            "h-7 w-7 mt-1 flex items-center justify-center text-muted-foreground rounded-lg hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
             isMobile && "opacity-100"
           )}
         >
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div className="h-full space-y-3">
-          <div className="h-[3.85rem] dark:bg-[#1f1f1f] flex items-center">
-            <div className="w-12 h-12 mr-2">
-              <Image src="/images/logo.svg" alt="logo" width={50} height={50} />
+          <div className="h-[56px] dark:bg-[#1f1f1f] flex items-center">
+            <div>
+              <img src="/images/logo.png" alt="logo" className="h-9 w-9 mx-2" />
             </div>
-            <p className="text-green-500">People Portal</p>
+            <p className="hidden sm:block font-black dark:drop-shadow-[0_0.9px_0.9px_rgba(0,140,0,0.8)] drop-shadow-[0_0.5px_0.5px_rgba(0,0,0,0.8)]
+ text-green-600">People Portal</p>
           </div>
-
-          {/* profile has been inserted here  */}
 
           <div className="flex justify-center">
             <p className="text-2xl flex justify-center items-center">
@@ -166,16 +173,11 @@ const Navigation = memo(() => {
 
           <div>
             <EmployeeProfilePic
-              defaultPfp={
-                (userDetails && userDetails.displayImgUrl) || PROFILE_IMAGE_URL
-              }
-              avatarPfp={
-                (userDetails && userDetails.badgeImgUrl) || PROFILE_IMAGE_URL
-              }
-
-              phoneNo={userDetails && userDetails.phoneNo || "1234567890"}
-
-              slackId={userDetails && userDetails.slackId || ""}
+              defaultPfp={(userDetails && userDetails.displayImgUrl) || PROFILE_IMAGE_URL}
+              avatarPfp={(userDetails && userDetails.badgeImgUrl) || PROFILE_IMAGE_URL}
+              phoneNo={(userDetails && userDetails.phoneNo) || "1234567890"}
+              slackId={(userDetails && userDetails.slackId) || ""}
+              email={(userDetails && userDetails.email) || ""}
             />
           </div>
           <div>
@@ -190,7 +192,8 @@ const Navigation = memo(() => {
         <div
           onMouseDown={handleMouseDown}
           onClick={resetWidth}
-          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1.5 bg-primary/10 right-0 top-0"
+          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute w-1.5 bg-primary/10 right-0 top-[56px]"
+          style={{ height: 'calc(100% - 56px)' }}
         />
       </aside>
 

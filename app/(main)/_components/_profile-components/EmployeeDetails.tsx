@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 interface EmployeeDetailItemProps {
   label: string;
-  value: string;
+  value: any;
 }
 
 // Reusable UI component to display each employee detail
@@ -37,7 +37,7 @@ const EmployeeDetailItem = ({ label, value }: EmployeeDetailItemProps) => {
               onClick={handleCopy}
             />
           ) : (
-            <ClipboardPlus className="hover:text-[#0B8C4C]" />
+            <ClipboardPlus className="mt-2 hover:text-[#0B8C4C]" />
           )}
         </div>
       </div>
@@ -58,7 +58,6 @@ export default function EmployeeDetails({empDetails}:{
       "Designation":empDetails.designation,
       "Level":empDetails.level
     }
-
     setShowData(newObj);
   },[empDetails])
   return (

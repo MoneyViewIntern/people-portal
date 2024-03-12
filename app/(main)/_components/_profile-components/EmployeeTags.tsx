@@ -12,14 +12,15 @@ export default function EmployeeTags() {
     const combinedTags = [...workTags, ...communityTags];
 
     const getRandomColor = () => {
-        const colors = ['#7dabff', '#ffc078', '#78d8d6', '#ff7c7c', '#b088f9', '#f8b400', '#5eaaa8'];
+        const colors = ['#1B4D3E' , '#49796B' , '#4CAF50' ,'#043927','#20B2AA' , '#004953']
+        // const colors = ['#004953']
         return colors[Math.floor(Math.random() * colors.length)];
     };    
 
     return (
         <main className="mt-4 pl-3">
             <div>
-                <h2 style={{ fontSize: '28px', fontWeight: 'bold', color: 'beige', marginBottom: '2vh' }}>Employee Tags</h2>
+                <h2 style={{ fontSize: '28px', marginBottom: '2vh' , marginLeft:"12px" }}>Employee Tags</h2>
             </div>
             <div>
                 {combinedTags.map((tag, index) => {
@@ -27,7 +28,8 @@ export default function EmployeeTags() {
                     return (
                         <span key={index} style={{
                             display: 'inline-block',
-                            marginRight: '8px',
+                            marginRight: '6px',
+                            marginLeft: '4px',
                             marginBottom: '8px',
                             padding: '4px 8px',
                             backgroundColor: tagColor,

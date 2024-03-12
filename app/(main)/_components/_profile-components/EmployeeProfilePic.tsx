@@ -61,18 +61,18 @@ export default function EmployeeProfilePic({ defaultPfp, avatarPfp }) {
 
     return (
         <main style={{ display: 'flex', alignItems: 'center' , }}>
-            <div style={{ marginRight: '4vh' , marginLeft: '4vh'  }}>
+            <div style={{ marginRight: '4vh' , marginLeft: '4vh', border: '3px solid gray' , borderRadius: '20px'}}>
                 <Image
                     src={(selectedImage === 'default' ? defaultPfp : avatarPofilePic)}
                     alt="Profile Pic"
                     width={150}
                     height={150}
                     onClick={handleProfilePicClick}
-                    style={{ cursor: 'pointer', objectFit: 'cover', borderRadius: '5px'}}
+                    style={{ cursor: 'pointer', objectFit: 'cover', borderRadius: '17px'}}
                 />
             </div>
             <div>
-                <h2 style={{ fontSize: '28px', fontWeight: 'bold', color: 'beige' , marginBottom:'2vh'}}>{x}</h2>
+                <h2 style={{ fontSize: '28px', fontWeight: 'bold', color: 'green-500' , marginBottom:'2vh'}}>{x}</h2>
                 <div style={{ display: 'flex' }}>
                     <a href="https://moneyview.slack.com/team/U06L8R4G2DU" target="_blank" rel="noopener noreferrer" style={{marginRight:'1vh'}}>
                         <img src="/images/slack.png" alt="Slack icon" style={{ width: '40px', height: '40px' }} />
@@ -82,7 +82,7 @@ export default function EmployeeProfilePic({ defaultPfp, avatarPfp }) {
                         <img src="/images/map.png" alt="Slack icon" style={{ width: '40px', height: '40px' }} />
                     </a>
 
-                    <button onClick={handleDownload}>download</button>
+                    <button onClick={handleDownload} className="border border-black text-white py-2 px-2 rounded-md shadow-md hover:bg-[#08703c]">Download Docs</button>
                 </div>
             </div>
         </main>

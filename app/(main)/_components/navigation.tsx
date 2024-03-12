@@ -31,6 +31,11 @@ const Navigation = memo(() => {
   const handleProfile = useProfile().onOpen;
   const handleProfileEdit = useProfileEdit().onOpen;
 
+  const [userTags, setUserTags] = useState([ // State for user tags
+    "apple", "banana", "orange", "grape", "kiwi", "pear", "pineapple",
+    "strawberry", "watermelon", "blueberry", "peach", "mango", "avocado"
+  ]);
+
 
   const collapse = useCallback(() => {
     if (!sidebarRef.current || !navbarRef.current) return;
@@ -48,7 +53,7 @@ const Navigation = memo(() => {
 
     setIsCollapsed(false);
     setIsResetting(true);
-    sidebarRef.current.style.width = isMobile ? "100%" : "440px";
+    sidebarRef.current.style.width = isMobile ? "100%" : "500px";
     navbarRef.current.style.width = isMobile ? "0" : "calc(100% - 440px)";
     navbarRef.current.style.left = isMobile ? "100%" : "440px";
     setTimeout(() => setIsResetting(false), 300);
@@ -124,14 +129,14 @@ const Navigation = memo(() => {
         <div className="h-full space-y-3">
         <div className="h-[3.85rem] dark:bg-[#1f1f1f] flex items-center">
           <div className="w-12 h-12 mr-2">
-            <Image src="/images/logo.png" alt="logo" width={40} height={40} />
+            <Image src="/images/logo.png" alt="logo" width={50} height={50} /> {/* Increased icon size */}
           </div>
-          <p className="text-green-500">Employee Portal</p>
+          <p className="text-2xl text-green-500">Employee Portal</p> {/* Increased text size */}
         </div>
 
           {/* profile has been inserted here  */}
           <div>
-            <p className="centered-element text-4xl flex justify-center items-center mt-8 mb-8">
+            <p className="centered-element text-3xl flex justify-center items-center mt-8 mb-8">
               Employee Profile 
               <button className="edit-button ml-3" onClick={handleProfileEdit}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">

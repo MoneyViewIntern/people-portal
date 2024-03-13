@@ -12,12 +12,14 @@ interface ProfileItemProps {
   description?: string;
   value: string;
   isEditable: boolean;
+  onChange?:(value:any)=>void;
 }
 const ProfileItem = ({
   name,
   description,
   value,
   isEditable,
+  onChange
 }: ProfileItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newValue, setNewValue]= useState(value);
@@ -36,6 +38,7 @@ const ProfileItem = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewValue(event.target.value);
+    if (onChange) onChange(event.target.value);
     // On Change update name
   };
 

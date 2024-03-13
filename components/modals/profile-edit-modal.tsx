@@ -5,65 +5,30 @@ import { Avatar } from "../ui/avatar";
 import { Separator } from "../ui/seperator";
 import { useProfileEdit } from "@/hooks/use-profile-edit";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileItem from "../profile-item";
 import { useAuthContext } from "@/context/auth-context";
 import axios from "axios";
 import { toast } from "sonner";
+import { PROFILE_IMAGE_URL } from "@/Constants/constants";
+
+
+const fetchAllTags=async ()=>{
+  const {data}=await axios.get('http://localhost:8080/api/tags/individual');
+
+  return data;
+}
+
 
 export const ProfileEditModal = () => {
-  const profile = useProfileEdit();
-  const [avatarProfilePic, setAvatarProfilePic] = useState("/images/emp2.jpeg");
-  const [selectedTags, setSelectedTags] = useState([
-    "apple",
-    "banana",
-    "orange",
-    "grape",
-    "kiwi",
-    "pear",
-    "pineapple",
-    "strawberry",
-    "watermelon",
-    "blueberry",
-    "peach",
-    "mango",
-    "avocado",
-  ]); // Initially selected tags
-  const [userTags, setUserTags] = useState([
-    "apple",
-    "banana",
-    "orange",
-    "grape",
-    "kiwi",
-    "pear",
-    "pineapple",
-    "strawberry",
-    "watermelon",
-    "blueberry",
-    "peach",
-    "mango",
-    "avocado",
-  ]);
-  const universalTags = [
-    "grape",
-    "kiwi",
-    "pear",
-    "pineapple",
-    "strawberry",
-    "watermelon",
-    "lemon",
-    "saskatoon berry",
-    "sea buckthorn",
-    "serviceberry",
-    "strawberry",
-    "bilberry",
-    "tayberry",
-    "thimbleberry",
-    "watermelon berry",
-    "wild peach",
-    "wild strawberry",
-  ];
   const { viewedUser, currentUser, currentUserDetails } = useAuthContext();
+  const [name,setName]=useState("");
+  const [phoneNo,setPhoneNo]=useState("");
+  const [designation,setDesignation]=useState("");
+  const [displayImg,setDisplayImg]=useState("");
+  const profile = useProfileEdit();
+  const [userTags,setUserTags]=useState([]);
+  const [allTags,setAllTags]=useState([]);
   const handleFileChange = async (event: any) => {
     const file = event.target.files[0];
     
@@ -85,22 +50,36 @@ export const ProfileEditModal = () => {
     console.log("User tags:", userTags);
     console.log("Current User Details are");
     console.log(currentUserDetails);
+
     // Additional logic to save changes to user tags
   };
 
-  const handleUserSpecificTagClick = (tag: any) => {
-    if (!selectedTags.includes(tag)) return; // Do nothing if the tag is not present in user-specific tags
-    const newTags = userTags.filter((t) => t !== tag); // Remove the tag from user-specific tags
-    setUserTags(newTags);
-    setSelectedTags(newTags);
-  };
+  // const handleUserSpecificTagClick = (tag: any) => {
+  //   if (!selectedTags.includes(tag)) return; // Do nothing if the tag is not present in user-specific tags
+  //   const newTags = userTags.filter((t) => t !== tag); // Remove the tag from user-specific tags
+  //   setUserTags(newTags);
+  //   setSelectedTags(newTags);
+  // };
 
-  const handlePossibleTagClick = (tag: any) => {
-    if (userTags.includes(tag)) return; // Do nothing if the tag is already selected in user-specific tags
-    const newTags = [...userTags, tag]; // Add the tag to user-specific tags
-    setUserTags(newTags);
-    setSelectedTags(newTags);
-  };
+  // const handlePossibleTagClick = (tag: any) => {
+  //   if (userTags.includes(tag)) return; // Do nothing if the tag is already selected in user-specific tags
+  //   const newTags = [...userTags, tag]; // Add the tag to user-specific tags
+  //   setUserTags(newTags);
+  //   setSelectedTags(newTags);
+  // };
+
+  useEffect(()=>{
+    setDisplayImg(currentUserDetails.displayImgUrl);
+    setName(currentUserDetails.name);
+    setDesignation(currentUserDetails.designation);
+    setPhoneNo(currentUserDetails.phoneNo);
+    setUserTags(currentUserDetails.assignedTags);
+    (async ()=>{
+      const respData=await fetchAllTags();
+      console.log(respData);
+      setAllTags(respData);
+      })();
+  },[currentUserDetails])
  
   return (
     <Dialog open={profile.isOpen} onOpenChange={profile.onClose}>
@@ -109,7 +88,7 @@ export const ProfileEditModal = () => {
           <h2 className="text-xl font-bold">Edit Profile</h2>
         </DialogHeader>
         <div className="flex items-center justify-center">
-          <img src={avatarProfilePic} className=" rounded-full w-32 h-32" />
+          <img src={displayImg || PROFILE_IMAGE_URL} className=" rounded-full w-32 h-32" />
 
           <input
             type="file"
@@ -133,21 +112,23 @@ export const ProfileEditModal = () => {
         <ProfileItem
           name="Name"
           description="What should we call you?"
-          value="Arihant Agnihotri"
+          value={name || "xyz"}
           isEditable={true}
+          onChange={setName}
         />
 
         <ProfileItem
           name="Phone Number"
           description="Your Personal Numbers"
-          value="+91-9044040088"
+          value={phoneNo || "xyz"}
           isEditable={true}
+          onChange={setPhoneNo}
         />
         
         <ProfileItem
           name="Designation"
           description="Your Role"
-          value="SDE"
+          value={designation || "xyz"}
           isEditable={false}
         />
         
@@ -155,15 +136,13 @@ export const ProfileEditModal = () => {
         <div className="mt-4">
           <h3 className="text-lg font-bold mb-2">Existing Tags</h3>
           <div className="flex flex-wrap gap-2">
-            {selectedTags.map((tag) => (
+            {userTags && userTags.length && userTags.map((tag:any) => (
               <span
-                key={tag}
-                className={`tag ${
-                  tag.startsWith("-") ? "bg-red-500" : "bg-green-500"
-                } text-white cursor-pointer py-1 px-3 rounded-full`}
-                onClick={() => handleUserSpecificTagClick(tag.replace("-", ""))}
+                key={tag.name}
+                className={`tag  bg-green-500 text-white cursor-pointer py-1 px-3 rounded-full`}
+               
               >
-                {tag.replace("-", "")}
+                {tag.name}
               </span>
             ))}
           </div>
@@ -171,13 +150,10 @@ export const ProfileEditModal = () => {
         <div className="mt-4">
           <h3 className="text-lg font-bold mb-2">Add Tags</h3>
           <div className="flex flex-wrap gap-2">
-            {universalTags.map((tag) => (
+            {allTags && allTags.length && allTags.map((tag:any) => (
               <span
                 key={tag}
-                className={`tag ${
-                  userTags.includes(tag) ? "bg-green-500" : "bg-gray-300"
-                } text-black cursor-pointer py-1 px-3 rounded-full`}
-                onClick={() => handlePossibleTagClick(tag)}
+                className={`tag bg-green-500 text-black cursor-pointer py-1 px-3 rounded-full`}
               >
                 {tag}
               </span>

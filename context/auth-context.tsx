@@ -6,7 +6,7 @@ interface AuthContextType {
   isSignedIn: boolean;
   currentUser: string;
   viewedUser: string;
-  currentUserDetails: string;
+  currentUserDetails: any;
   setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<string>>;
   setCurrentUserDetails: React.Dispatch<React.SetStateAction<string>>;
@@ -39,19 +39,13 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     localStorage.setItem("isSignedIn", JSON.stringify(isSignedIn));
     localStorage.setItem("currentUser", currentUser);
     localStorage.setItem("viewedUser", viewedUser);
-    if (currentUser) {
-      fetchCurrentUserDetails(currentUser);
-      localStorage.setItem(
-        "currentUserDetails",
-        JSON.stringify(currentUserDetails)
-      );
-    } else console.log("Current User cleared");
-  }, [isSignedIn, currentUser, viewedUser]);
+    }, [isSignedIn, currentUser, viewedUser]);
 
   //change current User details on changing currentUser
   useEffect(() => {
     if (currentUser) {
       fetchCurrentUserDetails(currentUser);
+      localStorage.removeItem("currrentUserDetails")
       localStorage.setItem(
         "currentUserDetails",
         JSON.stringify(currentUserDetails)

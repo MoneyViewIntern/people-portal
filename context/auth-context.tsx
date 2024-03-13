@@ -39,13 +39,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     localStorage.setItem("isSignedIn", JSON.stringify(isSignedIn));
     localStorage.setItem("currentUser", currentUser);
     localStorage.setItem("viewedUser", viewedUser);
-    }, [isSignedIn, currentUser, viewedUser]);
+  }, [isSignedIn, currentUser, viewedUser]);
 
   //change current User details on changing currentUser
   useEffect(() => {
     if (currentUser) {
       fetchCurrentUserDetails(currentUser);
-      localStorage.removeItem("currrentUserDetails")
+      if (localStorage.getItem("currentUserDetails"))
+        localStorage.removeItem("currentUserDetails");
       localStorage.setItem(
         "currentUserDetails",
         JSON.stringify(currentUserDetails)

@@ -22,22 +22,20 @@ const EmployeeDetailItem = ({ label, value }: EmployeeDetailItemProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-y-4 pt-6  p-1">
-      <div className="flex justify-between">
+    <div className="flex flex-col gap-y-4 pt-4 p-1">
+      <div className="flex justify-between hover:shadow-lg items-start border-l-4 border-green-500 pl-2">
         <div>
-          <div className=" text-md text-muted-foreground font-semibold">
-            {label}
-          </div>
+          <div className="text-md text-muted-foreground font-semibold">{label}</div>
           <div className="text-sm">{value}</div>
         </div>
         <div className="mr-4 text-muted-foreground">
           {!copied ? (
             <ClipboardCopy
-              className="mt-2 hover:cursor-pointer hover:text-[#0B8C4C]"
+              className="hover:cursor-pointer hover:text-[#0B8C4C]"
               onClick={handleCopy}
             />
           ) : (
-            <ClipboardPlus className="mt-2 hover:text-[#0B8C4C]" />
+            <ClipboardPlus className="hover:text-[#0B8C4C]" />
           )}
         </div>
       </div>

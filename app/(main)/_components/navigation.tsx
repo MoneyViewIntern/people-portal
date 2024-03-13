@@ -23,6 +23,7 @@ import { useProfileEdit } from "@/hooks/use-profile-edit";
 import axios from "axios";
 
 import { PROFILE_IMAGE_URL } from "@/Constants/constants";
+import { Button } from "@/components/ui/button";
 
 const fetchUserDetails = async (username: any) => {
   const { data } = await axios.get(
@@ -123,6 +124,10 @@ const Navigation = memo(() => {
     [handleMouseMove, handleMouseUp]
   );
 
+  const handleDownloadTree = () => {
+    console.log("downloading tree")
+  }
+
   return (
     <>
       <aside
@@ -208,6 +213,14 @@ const Navigation = memo(() => {
         <nav className="bg-transparent w-full">
           <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
         </nav>
+        <div className="flex justify-end">
+          <Button  className={cn(
+            "bg-green-600 mt-2 mr-4 radius-lg",
+            !isCollapsed && "hidden bg-red-500"
+          )} onClick={handleDownloadTree}>
+            Download Tree
+          </Button>
+        </div>
       </div>
     </>
   );

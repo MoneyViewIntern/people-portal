@@ -8,6 +8,8 @@ export default function EmployeeTags({tags}:{tags:any}) {
     const handleTagClick = (tag: any) => {
         // Code to display search results for the clicked tag
         console.log(`Searching for results related to: ${tag.name}-${tag.type}`);
+
+        
     };
 
 

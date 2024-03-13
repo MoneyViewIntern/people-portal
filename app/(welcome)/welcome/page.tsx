@@ -19,7 +19,7 @@ const WelcomePage = () => {
         // Redirect to login or another page if currentUser is not available
         router.push('/login');
       }
-    }, 1500);
+    }, 2000);
 
     return () => clearTimeout(redirectTimer);
   }, [router, currentUser]);
@@ -31,7 +31,7 @@ const WelcomePage = () => {
         <p className="text-lg md:text-xl text-green-300 text-gray-600 mt-2">It's great to have you here.</p>
       </div>
       <div style={{ width: '100%', height: 'auto', textAlign: 'center' }}>
-        <img src="/images/waves.gif" alt="Me" style={{ width: '100%', height: 'auto', maxHeight: 'calc(100vh - 200px)' }} />
+        <img src="/images/waves.gif" alt="Me" className='-hue-rotate-79' style={{ width: '100%', height: 'auto', maxHeight: 'calc(100vh - 200px)' }} />
       </div>
     </div>
   );

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDownload } from "@/hooks/use-download";
 import { Download, Mail, Phone, Slack } from "lucide-react";
+import { useAuthContext } from "@/context/auth-context";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 interface EmployeeProfilePicProps {
   defaultPfp: any;
   avatarPfp: any;
@@ -18,8 +21,19 @@ export default function EmployeeProfilePic({
   const [selectedImage, setSelectedImage] = useState("default");
   const [avatarPofilePic, setAvatarPofilePic] = useState(avatarPfp);
   const [userSwitched, setUserSwitched] = useState(false);
-
-  const handleDownload = useDownload().onOpen;
+  const {viewedUser, currentUser} = useAuthContext();
+  const [canDownload, setCanDownload]=useState(true);  // true when condition met
+  const download = useDownload();
+  const handleDownload = ()=>{
+    if(viewedUser===currentUser) {
+      setCanDownload(true);
+      download.onOpen();
+    }
+    else{
+      setCanDownload(false);
+      toast.error("You are not authorized to download other user's resources")
+    } 
+  }
 
   useEffect(() => {
     const switchToAvatar = setTimeout(() => {
@@ -91,10 +105,10 @@ export default function EmployeeProfilePic({
           >
             <Mail className=" m-2 hover:text-[#0B8C4C]" />
           </a>
-          <a className="hover:cursor-pointer"> 
+          <a> 
           <Download
             onClick={handleDownload}
-            className="m-2 hover:text-[#0B8C4C]"
+            className={cn("m-2", canDownload && "hover:text-[#0B8C4C] hover:cursor-pointer", !canDownload && "text-muted-foreground hover:cursor-not-allowed")}
           />
           </a>
             </div>

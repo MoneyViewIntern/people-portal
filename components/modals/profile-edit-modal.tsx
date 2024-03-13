@@ -81,6 +81,10 @@ export const ProfileEditModal = () => {
     calls.push(Array.from(addTag).map((tag:String)=>callAssignTags(tag,currentUser)));
     await Promise.all(calls);
     setCurrentUserDetails({...currentUserDetails,phoneNo,name});
+
+    //edit profile modal closes on save changes
+    toast.success("Changes Saved");
+    profile.onClose();
   };
 
   // const handleUserSpecificTagClick = (tag: any) => {

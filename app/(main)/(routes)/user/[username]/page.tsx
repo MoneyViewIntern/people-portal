@@ -38,15 +38,17 @@ const UserPage = ({ params }: UsernamePageProps) => {
   }
 
   return (
-      <Organizationchart
-        datasource={ds}
-        NodeTemplate={NodeTemplate}
-        pan={true}
-        zoom={true}
-        zoominLimit={1}
-        onClickNode={readSelectedNode}
-        onClickChart={clearSelectedNode}
-      />
+      <main>
+        <Organizationchart
+          datasource={ds}
+          NodeTemplate={NodeTemplate}
+          pan={true}
+          zoom={true}
+          zoominLimit={1}
+          onClickNode={readSelectedNode}
+          onClickChart={clearSelectedNode}
+        />
+      </main>
   );
 };
 

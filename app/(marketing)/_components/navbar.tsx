@@ -13,6 +13,7 @@ const Navbar = () => {
   const handleAuth = useAuth().onOpen;
   const IMGURL = "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png";
   const {isSignedIn}= useAuthContext();
+
   return (
     <div
       className={cn(
@@ -23,19 +24,9 @@ const Navbar = () => {
       <Logo />
       <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
         {!isSignedIn && (
-          <Button onClick={handleAuth} variant="outline" size="sm">
+          <Button onClick={handleAuth} variant="outline" size="sm" className="border-green-600">
           Sign In
         </Button>
-        )}
-        {isSignedIn && (
-          <>
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/welcome">Enter Portal</Link>
-            </Button>
-            <Avatar className="h-9 w-9">
-              <AvatarImage src={IMGURL} />
-            </Avatar>
-          </>
         )}
         <ModeToggle />
       </div>

@@ -1,23 +1,40 @@
-"use client"
-import { Button } from "@/components/ui/button";
+'use client'
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAuthContext } from "@/context/auth-context";
-import Link from "next/link";
+
 
 const WelcomePage = () => {
-  const {currentUser} = useAuthContext();
-  return(
-    <div className="flex flex-col justify-center items-center h-full w-full">
-    <h1 className="text-6xl md:text-9xl 3xl:text-[20rem] font-bold text-center mb-8 animate-pulse animate-once animate-delay-500">
-      Welcome
-    </h1>
-    <Button className="hover:font-bold py-7 px-8 rounded" asChild>
-      <Link href={`/user/${currentUser}`}>
-        Proceed
-      </Link>
-    </Button>
-  </div>
-)}
- 
+  const router = useRouter();
+  const { currentUser } = useAuthContext(); // Access currentUser from the auth context
+  console.log(currentUser)
+
+  useEffect(() => {
+    const redirectTimer = setTimeout(() => {
+      if (currentUser) {
+        router.push(`/user/${currentUser}`);
+      } else {
+        // Redirect to login or another page if currentUser is not available
+        router.push('/login');
+      }
+    }, 1500);
+
+    return () => clearTimeout(redirectTimer);
+  }, [router, currentUser]);
+
+  return (
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ marginBottom: '4rem', textAlign: 'center', flex: '1', marginTop: '19rem' }}>
+        <h1 className="font-bold  text-4xl md:text-5xl">Hello {currentUser}, welcome back!</h1>
+        <p className="text-lg md:text-xl text-green-300 text-gray-600 mt-2">It's great to have you here.</p>
+      </div>
+      <div style={{ width: '100%', height: 'auto', textAlign: 'center' }}>
+        <img src="/images/waves.gif" alt="Me" style={{ width: '100%', height: 'auto', maxHeight: 'calc(100vh - 200px)' }} />
+      </div>
+    </div>
+  );
+}
+
 export default WelcomePage;
-
-

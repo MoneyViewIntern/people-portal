@@ -149,10 +149,7 @@ const Navigation = memo(() => {
             <div>
               <img src="/images/logo.png" alt="logo" className="h-9 w-9 mx-2" />
             </div>
-            <p
-              className="hidden sm:block font-black dark:drop-shadow-[0_0.9px_0.9px_rgba(0,140,0,0.8)] drop-shadow-[0_0.5px_0.5px_rgba(0,0,0,0.8)]
- text-green-600"
-            >
+            <p className="hidden sm:block font-black text-lg dark:drop-shadow-[0_0.9px_0.9px_rgba(0,140,0,0.8)] drop-shadow-[0_0.5px_0.5px_rgba(0,0,0,0.8)] text-green-600" >
               People Portal
             </p>
           </div>

@@ -15,30 +15,33 @@ export default function EmployeeProfilePic({
   slackId,
   email,
 }: EmployeeProfilePicProps) {
-  const [selectedImage, setSelectedImage] = useState("default");
+  const [selectedImage, setSelectedImage] = useState(defaultPfp);
   const [avatarPofilePic, setAvatarPofilePic] = useState(avatarPfp);
   const [userSwitched, setUserSwitched] = useState(false);
 
   const handleDownload = useDownload().onOpen;
 
   useEffect(() => {
+    // Automatically switch the image to avatar after 3 seconds
     const switchToAvatar = setTimeout(() => {
-      if (!userSwitched) {
-        setSelectedImage("avatar");
+      if (!userSwitched && avatarPfp) {
+        setSelectedImage('avatar');
       }
-    }, 100);
+    }, 3000); // 3000 milliseconds = 3 seconds
 
+    // Automatically switch the image back to default after 5 seconds
     const switchToDefault = setTimeout(() => {
-      if (!userSwitched) {
-        setSelectedImage("default");
+      if (!userSwitched && avatarPfp) {
+        setSelectedImage('default');
       }
-    }, 100);
+    }, 5000); // 5000 milliseconds = 5 seconds
 
+    // Clean up the timeouts
     return () => {
       clearTimeout(switchToAvatar);
       clearTimeout(switchToDefault);
     };
-  }, [userSwitched]);
+  }, [userSwitched]); 
 
   const toggleImage = () => {
     setSelectedImage(selectedImage === "default" ? "avatar" : "default");

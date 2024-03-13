@@ -10,14 +10,18 @@ import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useAuthContext } from "@/context/auth-context";
 import { useAuth } from "@/hooks/use-auth";
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+import { useRouter } from "next/navigation"; // Import the useRouter hook
+
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { isSignedIn, currentUser,viewedUser, setIsSignedIn,setCurrentUser, setViewedUser  } = useAuthContext();
- const {onClose} = useAuth();
+  const { isSignedIn, currentUser, viewedUser, setIsSignedIn, setCurrentUser, setViewedUser } = useAuthContext();
+  const { onClose } = useAuth();
+  const router = useRouter(); // Initialize useRouter
+
   async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
@@ -34,12 +38,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         setViewedUser(username);
         toast.success("Logged in successfully!");
         onClose();
-
       }
     } catch (error) {
       if (error instanceof AxiosError) {
         let errorCode = error?.response?.status;
-        if (errorCode === 401)toast.error("Invalid password. Please try again."); // Invalid Password
+        if (errorCode === 401) toast.error("Invalid password. Please try again."); // Invalid Password
         else if (errorCode === 404) toast.error("Invalid Username."); // User username
         else toast.error("Unexpected error occurred.");
         console.log(error);
@@ -48,7 +51,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       setIsLoading(false);
     }
   }
-
+  
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit}>
@@ -80,7 +83,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button disabled={isLoading}>
+          <Button disabled={isLoading} className="bg-green-600">
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}

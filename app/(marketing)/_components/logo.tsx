@@ -9,20 +9,12 @@ const Logo = () => {
   return (
     <div className="hidden md:flex items-center gap-x-2">
       <Image
-        src="images/logo.svg"
-        height="50"
-        width="50"
-        className="dark:hidden"
+        src="/images/logo.svg"
+        height="60"
+        width="60"
         alt="Logo"
       />
-      <Image
-        src="images/logo-dark.svg"
-        height="50"
-        width="50"
-        className="hidden dark:block filter grayscale"
-        alt="Logo"
-      />
-      <p className={cn("font-bold", font.className)}>PeoplePortal</p>
+      <p className={cn("font-bold text-green-500", font.className)} style={{ whiteSpace: 'nowrap' }}>People Portal</p>
     </div>
   );
 };

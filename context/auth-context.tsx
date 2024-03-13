@@ -58,8 +58,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     const { data } = await axios.get(
       `http://localhost:8080/api/user/${username}`
     );
-    console.log("Fetched current user details");
-    console.log(data);
+    // console.log("Fetched current user details");
+    // console.log(data);
     setCurrentUserDetails(data);
   };
   const signOut = () => {

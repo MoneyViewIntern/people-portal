@@ -314,13 +314,13 @@ const ChartContainer = forwardRef(
     return (
       <div
         ref={container}
-        className={"orgchart-container" + containerClass}
+        className={"orgchart-container " + containerClass}
         onWheel={zoom ? zoomHandler : undefined}
         onMouseUp={pan && panning ? panEndHandler : undefined}
       >
         <div
           ref={chart}
-          className={"orgchart " + chartClass}
+          className={"orgchart w-screen " + chartClass}
           style={{ transform: transform, cursor: cursor }}
           onClick={clickChartHandler}
           onMouseDown={pan ? panStartHandler : undefined}
@@ -339,17 +339,6 @@ const ChartContainer = forwardRef(
               />
             </ul>
           )}
-        </div>
-        <a
-          className="oc-download-btn hidden"
-          ref={downloadButton}
-          href={dataURL}
-          download={download}
-        >
-          &nbsp;
-        </a>
-        <div className={`oc-mask ${exporting ? "" : "hidden"}`}>
-          <i className="oci oci-spinner spinner"></i>
         </div>
       </div>
     );

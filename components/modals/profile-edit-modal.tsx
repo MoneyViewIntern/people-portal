@@ -45,7 +45,7 @@ const callUnassignTags=async (tagName:String,username:String)=>{
   });
 }
 export const ProfileEditModal = () => {
-  const { viewedUser, currentUser, currentUserDetails } = useAuthContext();
+  const { viewedUser, currentUser, currentUserDetails,setCurrentUserDetails } = useAuthContext();
   const [name,setName]=useState("");
   const [phoneNo,setPhoneNo]=useState("");
   const [designation,setDesignation]=useState("");
@@ -63,12 +63,13 @@ export const ProfileEditModal = () => {
       const formData = new FormData();
       formData.append('displayImg', file);
       formData.append('username', currentUser);
-      const res = await axios.post('http://localhost:8080/api/upload/display', formData, {
+      const {data} = await axios.post('http://localhost:8080/api/upload/display', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      console.log(res);
+      // console.log(res);
+      setCurrentUserDetails({...currentUserDetails,displayImgUrl:data});
     }
   };
 
@@ -76,10 +77,10 @@ export const ProfileEditModal = () => {
 
   const handleSaveChanges = async() => {
     var calls=[updateUserDetails(name,phoneNo,currentUser)]
-    calls.push(Array.from(removeTag).map((tag)=>callUnassignTags(tag,currentUser)));
-    calls.push(Array.from(addTag).map((tag)=>callAssignTags(tag,currentUser)));
+    calls.push(Array.from(removeTag).map((tag:String)=>callUnassignTags(tag,currentUser)));
+    calls.push(Array.from(addTag).map((tag:String)=>callAssignTags(tag,currentUser)));
     await Promise.all(calls);
-
+    setCurrentUserDetails({...currentUserDetails,phoneNo,name});
   };
 
   // const handleUserSpecificTagClick = (tag: any) => {
@@ -99,7 +100,7 @@ export const ProfileEditModal = () => {
     setAddTag((prevAddTag:any) => new Set([...prevAddTag, tag]));
     setRemoveTag((prevRemoveTag:any) => new Set([...prevRemoveTag].filter((t) => t !== tag)));
     setUserTags((prevUserTags:any) => new Set([...prevUserTags, tag]));
-    console.log(removeTag,userTags,addTag);
+ 
 
   };
   
@@ -107,7 +108,6 @@ export const ProfileEditModal = () => {
     setRemoveTag((prevRemoveTag:any) => new Set([...prevRemoveTag, tag]));
     setAddTag((prevAddTag:any) => new Set([...prevAddTag].filter((t) => t !== tag)));
     setUserTags((prevUserTags:any) => new Set([...prevUserTags].filter((t) => t !== tag)));
-    console.log(removeTag,userTags,addTag);
   };
   
 
@@ -120,11 +120,10 @@ export const ProfileEditModal = () => {
     setUserTags(new Set(tgs));
     (async ()=>{
       const respData=await fetchAllTags();
-      console.log(respData);
       setAllTags(respData);
       })();
+
   },[currentUserDetails])
- 
   return (
     
     <Dialog open={profile.isOpen} onOpenChange={profile.onClose}>

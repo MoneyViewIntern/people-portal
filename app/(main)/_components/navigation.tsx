@@ -28,12 +28,11 @@ const fetchUserDetails = async (username: any) => {
   const { data } = await axios.get(
     `http://localhost:8080/api/user/${username}`
   );
-  console.log(data);
   return data;
 };
 
 const Navigation = memo(() => {
-  const { signOut, viewedUser, currentUser } = useAuthContext();
+  const { viewedUser, currentUser,currentUserDetails } = useAuthContext();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 1234px)");
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -107,7 +106,8 @@ const Navigation = memo(() => {
       const userData = await fetchUserDetails(viewedUser);
       setUserDetails(userData);
     })();
-  }, [viewedUser]);
+  }, [viewedUser,currentUserDetails]);
+  
 
   const handleMouseUp = useCallback(() => {
     document.removeEventListener("mousemove", handleMouseMove);

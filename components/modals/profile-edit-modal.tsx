@@ -19,7 +19,31 @@ const fetchAllTags=async ()=>{
   return data;
 }
 
+const updateUserDetails= async (name:String,phoneNo:String,username:String)=>{
+  const resp= await axios.post('http://localhost:8080/api/user/update',{
+  username,
+  phoneNo,
+  name
+  });
+  console.log(resp);
+}
 
+const callAssignTags=async (tagName:String,username:String)=>{
+  const resp= await axios.post('http://localhost:8080/api/user/assign',{
+    username,
+    tagName,
+    type:"INDIVIDUAL"
+  });
+}
+
+
+const callUnassignTags=async (tagName:String,username:String)=>{
+  const resp= await axios.post('http://localhost:8080/api/user/unassign',{
+    username,
+    tagName,
+    type:"INDIVIDUAL"
+  });
+}
 export const ProfileEditModal = () => {
   const { viewedUser, currentUser, currentUserDetails } = useAuthContext();
   const [name,setName]=useState("");
@@ -27,8 +51,11 @@ export const ProfileEditModal = () => {
   const [designation,setDesignation]=useState("");
   const [displayImg,setDisplayImg]=useState("");
   const profile = useProfileEdit();
-  const [userTags,setUserTags]=useState([]);
+  const [userTags,setUserTags]=useState(new Set());
   const [allTags,setAllTags]=useState([]);
+  const [addTag,setAddTag]=useState(new Set());
+  const [removeTag,setRemoveTag]=useState(new Set());
+
   const handleFileChange = async (event: any) => {
     const file = event.target.files[0];
     
@@ -45,13 +72,14 @@ export const ProfileEditModal = () => {
     }
   };
 
-  const handleSaveChanges = () => {
-    console.log("Profile picture has been changed.");
-    console.log("User tags:", userTags);
-    console.log("Current User Details are");
-    console.log(currentUserDetails);
 
-    // Additional logic to save changes to user tags
+
+  const handleSaveChanges = async() => {
+    var calls=[updateUserDetails(name,phoneNo,currentUser)]
+    calls.push(Array.from(removeTag).map((tag)=>callUnassignTags(tag,currentUser)));
+    calls.push(Array.from(addTag).map((tag)=>callAssignTags(tag,currentUser)));
+    await Promise.all(calls);
+
   };
 
   // const handleUserSpecificTagClick = (tag: any) => {
@@ -67,13 +95,29 @@ export const ProfileEditModal = () => {
   //   setUserTags(newTags);
   //   setSelectedTags(newTags);
   // };
+  const handleAddTag = (tag:any) => {
+    setAddTag((prevAddTag:any) => new Set([...prevAddTag, tag]));
+    setRemoveTag((prevRemoveTag:any) => new Set([...prevRemoveTag].filter((t) => t !== tag)));
+    setUserTags((prevUserTags:any) => new Set([...prevUserTags, tag]));
+    console.log(removeTag,userTags,addTag);
+
+  };
+  
+  const handleRemoveTag = (tag:any) => {
+    setRemoveTag((prevRemoveTag:any) => new Set([...prevRemoveTag, tag]));
+    setAddTag((prevAddTag:any) => new Set([...prevAddTag].filter((t) => t !== tag)));
+    setUserTags((prevUserTags:any) => new Set([...prevUserTags].filter((t) => t !== tag)));
+    console.log(removeTag,userTags,addTag);
+  };
+  
 
   useEffect(()=>{
     setDisplayImg(currentUserDetails.displayImgUrl);
     setName(currentUserDetails.name);
     setDesignation(currentUserDetails.designation);
     setPhoneNo(currentUserDetails.phoneNo);
-    setUserTags(currentUserDetails.assignedTags);
+    const tgs=currentUserDetails?.assignedTags?.map((e:any)=>e.name);
+    setUserTags(new Set(tgs));
     (async ()=>{
       const respData=await fetchAllTags();
       console.log(respData);
@@ -82,8 +126,10 @@ export const ProfileEditModal = () => {
   },[currentUserDetails])
  
   return (
+    
     <Dialog open={profile.isOpen} onOpenChange={profile.onClose}>
       <DialogContent className="md:h-[90%] h-full overflow-auto">
+      
         <DialogHeader className="flex items-center border-b pb-3">
           <h2 className="text-xl font-bold">Edit Profile</h2>
         </DialogHeader>
@@ -136,15 +182,16 @@ export const ProfileEditModal = () => {
         <div className="mt-4">
           <h3 className="text-lg font-bold mb-2">Existing Tags</h3>
           <div className="flex flex-wrap gap-2">
-            {userTags && userTags.length && userTags.map((tag:any) => (
-              <span
-                key={tag.name}
+            { userTags  && Array.from(userTags).map((tag:any) => {
+              return (<span
+                key={tag}
                 className={`tag  bg-green-500 text-white cursor-pointer py-1 px-3 rounded-full`}
-               
+                onClick={()=>handleRemoveTag(tag)}
               >
-                {tag.name}
+                {tag}
               </span>
-            ))}
+              )
+            })}
           </div>
         </div>
         <div className="mt-4">
@@ -153,7 +200,8 @@ export const ProfileEditModal = () => {
             {allTags && allTags.length && allTags.map((tag:any) => (
               <span
                 key={tag}
-                className={`tag bg-green-500 text-black cursor-pointer py-1 px-3 rounded-full`}
+                className={`tag bg-green-500 cursor-pointer py-1 px-3 rounded-full`}
+                onClick={(e)=>handleAddTag(tag)}
               >
                 {tag}
               </span>

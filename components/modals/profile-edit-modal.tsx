@@ -153,7 +153,7 @@ export const ProfileEditModal = () => {
             {allTags && allTags.length && allTags.map((tag:any) => (
               <span
                 key={tag}
-                className={`tag bg-green-500 text-black cursor-pointer py-1 px-3 rounded-full`}
+                className={`tag bg-green-500 cursor-pointer py-1 px-3 rounded-full`}
               >
                 {tag}
               </span>

@@ -52,9 +52,9 @@ export default function EmployeeDetails({empDetails}:{
 
   useEffect(()=>{
     const newObj={
-      "Username":empDetails.username,
+      "Username":"@"+empDetails.username,
       "Email":empDetails.email,
-      "Name":empDetails.name,
+      "Phone Number":empDetails.phoneNo,
       "Designation":empDetails.designation,
       "Level":empDetails.level
     }

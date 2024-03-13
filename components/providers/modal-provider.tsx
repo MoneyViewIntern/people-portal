@@ -6,6 +6,7 @@ import LoginModal from "@/components/modals/login-modal";
 import { ProfileModal } from "../modals/profile-modal";
 import { ProfileEditModal } from "../modals/profile-edit-modal";
 import { DownloadModal } from "../modals/download-modal";
+import { SearchTagModal } from "../modals/search-tag-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -25,6 +26,7 @@ export const ModalProvider = () => {
     <LoginModal />
     <ProfileEditModal/>
     <DownloadModal/>
+    <SearchTagModal />
   </>
   )
 };

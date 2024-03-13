@@ -11,8 +11,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 const Navbar = () => {
   const scrolled = useScrollTop();
   const handleAuth = useAuth().onOpen;
-  const IMGURL = "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png";
-  const {isSignedIn}= useAuthContext();
+  const {isSignedIn, currentUserDetails}= useAuthContext();
   return (
     <div
       className={cn(
@@ -33,7 +32,7 @@ const Navbar = () => {
               <Link href="/welcome">Enter Portal</Link>
             </Button>
             <Avatar className="h-9 w-9">
-              <AvatarImage src={IMGURL} />
+              <AvatarImage src={currentUserDetails.displayImgUrl? currentUserDetails.displayImgUrl : "/images/logo.png"} />
             </Avatar>
           </>
         )}

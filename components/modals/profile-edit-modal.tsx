@@ -63,7 +63,7 @@ export const ProfileEditModal = () => {
     "wild peach",
     "wild strawberry",
   ];
-  const { viewedUser, currentUser } = useAuthContext();
+  const { viewedUser, currentUser, currentUserDetails } = useAuthContext();
   const handleFileChange = async (event: any) => {
     const file = event.target.files[0];
     
@@ -83,6 +83,8 @@ export const ProfileEditModal = () => {
   const handleSaveChanges = () => {
     console.log("Profile picture has been changed.");
     console.log("User tags:", userTags);
+    console.log("Current User Details are");
+    console.log(currentUserDetails);
     // Additional logic to save changes to user tags
   };
 

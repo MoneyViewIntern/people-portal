@@ -123,11 +123,6 @@ const Navigation = memo(() => {
     [handleMouseMove, handleMouseUp]
   );
 
-  // for profile
-  const [showEditPage, setShowEditPgae] = useState(false);
-  const handleClose = () => setShowEditPgae(false);
-  const handleShow = () => setShowEditPgae(true);
-
   return (
     <>
       <aside
@@ -154,8 +149,12 @@ const Navigation = memo(() => {
             <div>
               <img src="/images/logo.png" alt="logo" className="h-9 w-9 mx-2" />
             </div>
-            <p className="hidden sm:block font-black dark:drop-shadow-[0_0.9px_0.9px_rgba(0,140,0,0.8)] drop-shadow-[0_0.5px_0.5px_rgba(0,0,0,0.8)]
- text-green-600">People Portal</p>
+            <p
+              className="hidden sm:block font-black dark:drop-shadow-[0_0.9px_0.9px_rgba(0,140,0,0.8)] drop-shadow-[0_0.5px_0.5px_rgba(0,0,0,0.8)]
+ text-green-600"
+            >
+              People Portal
+            </p>
           </div>
 
           <div className="flex justify-center">
@@ -173,8 +172,12 @@ const Navigation = memo(() => {
 
           <div>
             <EmployeeProfilePic
-              defaultPfp={(userDetails && userDetails.displayImgUrl) || PROFILE_IMAGE_URL}
-              avatarPfp={(userDetails && userDetails.badgeImgUrl) || PROFILE_IMAGE_URL}
+              defaultPfp={
+                (userDetails && userDetails.displayImgUrl) || PROFILE_IMAGE_URL
+              }
+              avatarPfp={
+                (userDetails && userDetails.badgeImgUrl) || PROFILE_IMAGE_URL
+              }
               phoneNo={(userDetails && userDetails.phoneNo) || "1234567890"}
               slackId={(userDetails && userDetails.slackId) || ""}
               email={(userDetails && userDetails.email) || ""}
@@ -193,7 +196,7 @@ const Navigation = memo(() => {
           onMouseDown={handleMouseDown}
           onClick={resetWidth}
           className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute w-1.5 bg-primary/10 right-0 top-[56px]"
-          style={{ height: 'calc(100% - 56px)' }}
+          style={{ height: "calc(100% - 56px)" }}
         />
       </aside>
 

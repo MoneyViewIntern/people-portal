@@ -63,26 +63,20 @@ export const ProfileEditModal = () => {
     "wild peach",
     "wild strawberry",
   ];
-  const { viewedUser } = useAuthContext();
-  const handleFileChange = (event: any) => {
+  const { viewedUser, currentUser } = useAuthContext();
+  const handleFileChange = async (event: any) => {
     const file = event.target.files[0];
     
     if (file) {
       const formData = new FormData();
-      formData.append('file', file);
-  
-      axios.post('http://localhost:8080/api/upload', formData, {
+      formData.append('displayImg', file);
+      formData.append('username', currentUser);
+      const res = await axios.post('http://localhost:8080/api/upload/display', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      })
-      .then(response => {
-        console.log('File uploaded successfully:', response.data);
-      })
-      .catch(error => {
-        console.error('Error uploading file:', error);
-        toast.error("Error uploading file");
       });
+      console.log(res);
     }
   };
 
@@ -127,12 +121,8 @@ export const ProfileEditModal = () => {
             htmlFor="profile-pic-input"
             className="flex mt-[20%] h-12 w-12"
           >
-            <div className="flex items-center justify-center text-white hover:cursor-pointer bg-primary/5 hover:bg-primary/50 h-12 w-12 rounded-full">
-              <Pen
-                onClick={() =>
-                  document?.getElementById("profile-pic-input")?.click()
-                }
-              />
+            <div className="flex items-center justify-center hover:cursor-pointer bg-primary/5 hover:bg-primary/20 h-12 w-12 rounded-full">
+              <Pen />
             </div>
           </label>
         </div>

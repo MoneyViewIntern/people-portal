@@ -19,35 +19,35 @@ interface Props {
 }
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(() => {
-    if (typeof localStorage !== "undefined") {
-      const storedValue = localStorage.getItem("isSignedIn");
+    if (typeof sessionStorage !== "undefined") {
+      const storedValue = sessionStorage.getItem("isSignedIn");
       return storedValue ? JSON.parse(storedValue) : false;
     }
     return false;
   });
   const [currentUser, setCurrentUser] = useState<string>(() => {
-    return localStorage.getItem("currentUser") || "";
+    return sessionStorage.getItem("currentUser") || "";
   });
   const [currentUserDetails, setCurrentUserDetails] = useState<string>(() => {
-    return localStorage.getItem("currentUserDetails") || "";
+    return sessionStorage.getItem("currentUserDetails") || "";
   });
   const [viewedUser, setViewedUser] = useState<string>(() => {
-    return localStorage.getItem("viewedUser") || "";
+    return sessionStorage.getItem("viewedUser") || "";
   });
 
   useEffect(() => {
-    localStorage.setItem("isSignedIn", JSON.stringify(isSignedIn));
-    localStorage.setItem("currentUser", currentUser);
-    localStorage.setItem("viewedUser", viewedUser);
+    sessionStorage.setItem("isSignedIn", JSON.stringify(isSignedIn));
+    sessionStorage.setItem("currentUser", currentUser);
+    sessionStorage.setItem("viewedUser", viewedUser);
   }, [isSignedIn, currentUser, viewedUser]);
 
   //change current User details on changing currentUser
   useEffect(() => {
     if (currentUser) {
       fetchCurrentUserDetails(currentUser);
-      if (localStorage.getItem("currentUserDetails"))
-        localStorage.removeItem("currentUserDetails");
-      localStorage.setItem(
+      if (sessionStorage.getItem("currentUserDetails"))
+        sessionStorage.removeItem("currentUserDetails");
+      sessionStorage.setItem(
         "currentUserDetails",
         JSON.stringify(currentUserDetails)
       );
@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     setCurrentUser("");
     setCurrentUserDetails("");
     setViewedUser("");
-    localStorage.clear();
+    sessionStorage.clear();
   };
   return (
     <AuthContext.Provider

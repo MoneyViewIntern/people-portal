@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { Pen } from "lucide-react";
+import { Pen, Shell } from "lucide-react";
 import { Avatar } from "../ui/avatar";
 import { Separator } from "../ui/seperator";
 import { useProfileEdit } from "@/hooks/use-profile-edit";
@@ -11,6 +11,7 @@ import { useAuthContext } from "@/context/auth-context";
 import axios from "axios";
 import { toast } from "sonner";
 import { PROFILE_IMAGE_URL } from "@/Constants/constants";
+import { cn } from "@/lib/utils";
 
 
 const fetchAllTags=async ()=>{
@@ -50,6 +51,7 @@ export const ProfileEditModal = () => {
   const [phoneNo,setPhoneNo]=useState("");
   const [designation,setDesignation]=useState("");
   const [displayImg,setDisplayImg]=useState("");
+  const [uploadingImage, setUploadingImage]= useState(false);
   const profile = useProfileEdit();
   const [userTags,setUserTags]=useState(new Set());
   const [allTags,setAllTags]=useState([]);
@@ -60,6 +62,7 @@ export const ProfileEditModal = () => {
     const file = event.target.files[0];
     
     if (file) {
+      setUploadingImage(true);
       const formData = new FormData();
       formData.append('displayImg', file);
       formData.append('username', currentUser);
@@ -68,10 +71,16 @@ export const ProfileEditModal = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-      // console.log(res);
       setCurrentUserDetails({...currentUserDetails,displayImgUrl:data});
+      setTimeout(()=>{
+        setUploadingImage(false);
+        toast.success("User Image uploaded!")
+      }, 2000);
     }
   };
+  const handleUploadError=()=>{
+    toast.error("Cannot upload file right now!");
+  }
 
 
 
@@ -140,7 +149,7 @@ export const ProfileEditModal = () => {
           <img src={displayImg || PROFILE_IMAGE_URL} className=" rounded-full w-32 h-32" />
 
           <input
-            type="file"
+            type={!uploadingImage?"file" : "hidden"}
             onChange={handleFileChange}
             style={{ display: "none" }}
             accept="image/*"
@@ -151,8 +160,14 @@ export const ProfileEditModal = () => {
             htmlFor="profile-pic-input"
             className="flex mt-[20%] h-12 w-12"
           >
-            <div className="flex items-center justify-center hover:cursor-pointer bg-primary/5 hover:bg-primary/20 h-12 w-12 rounded-full">
-              <Pen />
+            <div className={cn("flex items-center justify-center hover:cursor-pointer bg-primary/5 hover:bg-primary/20 h-12 w-12 rounded-full ",uploadingImage && 'pointer-events-none')}>
+              {
+                uploadingImage?(
+                  <Shell className="animate-spin" />
+                ):(
+                  <Pen />
+                )
+              }
             </div>
           </label>
         </div>

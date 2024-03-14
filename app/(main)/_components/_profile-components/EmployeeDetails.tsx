@@ -23,7 +23,7 @@ const EmployeeDetailItem = ({ label, value }: EmployeeDetailItemProps) => {
 
   return (
     <div className="flex flex-col gap-y-4 pt-6  p-1">
-      <div className="flex justify-between">
+      <div className="flex justify-between hover:bg-[#323232] border-l-4 border-green-500 p-2">
         <div>
           <div className=" text-md text-muted-foreground font-semibold">
             {label}

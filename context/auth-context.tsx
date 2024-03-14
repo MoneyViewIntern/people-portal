@@ -44,13 +44,18 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   //change current User details on changing currentUser
   useEffect(() => {
     if (currentUser) {
-      fetchCurrentUserDetails(currentUser);
+      (async()=>{
+        const userData= await fetchCurrentUserDetails(currentUser);
+        setCurrentUserDetails(userData);
       if (sessionStorage.getItem("currentUserDetails"))
         sessionStorage.removeItem("currentUserDetails");
-      sessionStorage.setItem(
+      const data= JSON.stringify(userData);
+      console.log(data);
+        sessionStorage.setItem(
         "currentUserDetails",
-        JSON.stringify(currentUserDetails)
+        data
       );
+        })();
     } else console.log("Current User cleared");
   }, [currentUser]);
 
@@ -60,7 +65,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     );
     // console.log("Fetched current user details");
     // console.log(data);
-    setCurrentUserDetails(data);
+    return data;
   };
   const signOut = () => {
     setIsSignedIn(false);

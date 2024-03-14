@@ -115,7 +115,7 @@ export default function EmployeeProfilePic({
     <main className="flex flex-col">
       <div className="mx-auto">
         <img
-          src={selectedImage === "default" ? defaultPfp : avatarPofilePic}
+          src={selectedImage === "default" ? defaultPfp : (avatarPfp || avatarPofilePic)}
           onClick={handleProfilePicClick}
           className="h-[7rem] w-[7rem] cursor-pointer object-cover rounded-full"
         />

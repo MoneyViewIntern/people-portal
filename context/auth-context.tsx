@@ -6,11 +6,13 @@ interface AuthContextType {
   isSignedIn: boolean;
   currentUser: string;
   viewedUser: string;
+  selectedTag : string;
   currentUserDetails: any;
   setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<string>>;
   setCurrentUserDetails: React.Dispatch<React.SetStateAction<string>>;
   setViewedUser: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedTag: React.Dispatch<React.SetStateAction<string>>;
   signOut: () => void;
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,6 +36,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [viewedUser, setViewedUser] = useState<string>(() => {
     return sessionStorage.getItem("viewedUser") || "";
   });
+  const [selectedTag, setSelectedTag] = useState("");
 
   useEffect(() => {
     sessionStorage.setItem("isSignedIn", JSON.stringify(isSignedIn));
@@ -67,6 +70,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     setCurrentUser("");
     setCurrentUserDetails("");
     setViewedUser("");
+    setSelectedTag("");
     sessionStorage.clear();
   };
   return (
@@ -75,11 +79,13 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         isSignedIn,
         currentUser,
         viewedUser,
+        selectedTag,
         currentUserDetails,
         setIsSignedIn,
         setCurrentUser,
         setCurrentUserDetails,
         setViewedUser,
+        setSelectedTag,
         signOut,
       }}
     >

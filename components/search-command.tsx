@@ -14,8 +14,12 @@ import {
 import { useAuthContext } from "@/context/auth-context";
 import axios from "axios";
 import { PROFILE_IMAGE_URL } from "@/Constants/constants";
-import { Tag, Users } from "lucide-react";
+import { ArrowRightFromLine, Tag, Users } from "lucide-react";
 import { useTagSearch } from "@/hooks/use-tag-search";
+import { Dialog, DialogContent } from "@radix-ui/react-dialog";
+import { Label } from "@radix-ui/react-label";
+import { Button } from "./ui/button";
+import { DialogHeader } from "./ui/dialog";
 
 const fetchName = async (value: string) => {
   const resp = await axios.get(`http://localhost:8080/api/search?e=${value}`);
@@ -27,8 +31,9 @@ const fetchTag = async (value: string) => {
   console.log(resp);
   return resp.data;
 };
+
 export const SearchCommand = () => {
-  const { currentUser, viewedUser, setViewedUser } = useAuthContext();
+  const { currentUser, viewedUser, setViewedUser, setSelectedTag } = useAuthContext();
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [searchedEmployee, setSearchedEmployee] = useState([]);
@@ -81,6 +86,7 @@ export const SearchCommand = () => {
   const handleSelectTag = (item: any) => {
     console.log("TAG CLICKED");
     console.log(item);
+    setSelectedTag(item);
     tagOnOpen();
     toggle();
 

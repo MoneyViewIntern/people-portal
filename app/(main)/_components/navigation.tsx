@@ -39,7 +39,7 @@ const Navigation = memo(() => {
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(isMobile);
+  const [isCollapsed, setIsCollapsed] = useState(!isMobile);
   const [userDetails, setUserDetails] = useState({
     name: "",
     displayImgUrl: "",

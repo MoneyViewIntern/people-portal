@@ -37,6 +37,7 @@ const Navigation = memo(() => {
   const { signOut, viewedUser, currentUser } = useAuthContext();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 1234px)");
+  console.log("mobile : ",isMobile)
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
@@ -216,7 +217,7 @@ const Navigation = memo(() => {
         <div className="flex justify-end">
           <Button  className={cn(
             "bg-green-600 mt-2 mr-4 radius-lg",
-            !isCollapsed && "hidden bg-red-500"
+            (isMobile &&!isCollapsed && "hidden bg-red-500") || (!isMobile)
           )} onClick={handleDownloadTree}>
             Download Tree
           </Button>

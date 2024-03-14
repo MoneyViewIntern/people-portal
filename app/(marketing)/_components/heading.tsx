@@ -19,9 +19,9 @@ export const Heading = () => {
   
   return (
     <div className=" max-w-3xl space-y-4">
-      <h1 className="font-bold text-3xl sm:text-5xl md:text-6xl ">
+      <h1 className="font-bold text-green-600 text-3xl sm:text-5xl md:text-6xl ">
         Connect with your peers{" "}
-        <span className="underline"> People Portal </span>
+        <span className="underline text-green-600"> People Portal </span>
       </h1>
       <h3 className="font-medium text-base sm:text-xl md:text-2xl">
         People Portal is a collection of all the employee data <br />

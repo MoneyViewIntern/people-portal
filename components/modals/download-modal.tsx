@@ -34,7 +34,7 @@ export const DownloadModal = () => {
     <Dialog open={download.isOpen} onOpenChange={download.onClose}>
       <DialogContent>
         <DialogHeader className="border-b pb-3">
-          <h2 className="text-lg font-medium">Download</h2>
+          <h2 className="text-lg font-medium">Documents</h2>
         </DialogHeader>
         {userFiles && userFiles.map((file:any, index) => (
           <div key={index} className="flex items-center justify-between">

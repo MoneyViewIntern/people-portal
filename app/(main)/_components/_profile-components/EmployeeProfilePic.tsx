@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDownload } from "@/hooks/use-download";
-import { Download, Mail, Phone, Slack } from "lucide-react";
+import { Download, Mail, Phone, Slack ,FileText} from "lucide-react";
 import { useAuthContext } from "@/context/auth-context";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import axios from "axios";
 interface EmployeeProfilePicProps {
   defaultPfp: any;
   avatarPfp: any;
@@ -11,6 +12,39 @@ interface EmployeeProfilePicProps {
   slackId:any;
   email : any;
 }
+
+
+
+function convertArrayOfObjectsToCSV(data:any) {
+  const header = Object.keys(data[0]).filter(key => ['email', 'username', 'designation', 'level', 'phoneNo', 'slackId'].includes(key));
+  
+  const csv = [
+      header.join(','),
+      ...data.map((row:any) => header.map(fieldName => JSON.stringify(row[fieldName])).join(','))
+  ].join('\n');
+
+  return csv;
+}
+
+function downloadCSV(data:any, filename:any) {
+  const csv = convertArrayOfObjectsToCSV(data);
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', filename);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+const handleReporteeDownload=async (username:any)=>{
+  const {data}=await axios.get(`http://localhost:8080/api/user/reportee/${username}`);
+  downloadCSV(data,username);
+}
+
+
 export default function EmployeeProfilePic({
   defaultPfp,
   avatarPfp,
@@ -89,6 +123,7 @@ export default function EmployeeProfilePic({
         <div className="flex items-center justify-center mt-6">
             <div className="flex gap-x-5">
 
+          <Download className=" m-2 hover:text-[#0B8C4C]" onClick={()=>handleReporteeDownload(viewedUser)}/>
           <a
             href={`slack://open?id=${slackId}`}
             target="_blank"
@@ -106,7 +141,7 @@ export default function EmployeeProfilePic({
             <Mail className=" m-2 hover:text-[#0B8C4C]" />
           </a>
           <a> 
-          <Download
+          <FileText
             onClick={handleDownload}
             className={cn("m-2", canDownload && "hover:text-[#0B8C4C] hover:cursor-pointer", !canDownload && "text-muted-foreground hover:cursor-not-allowed")}
           />

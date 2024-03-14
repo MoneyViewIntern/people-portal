@@ -30,7 +30,7 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
       <nav
         className={cn(
           "bg-background dark:bg-[#1F1F1F] px-3 py-1.5 bg-neutral-100 w-full flex items-center justify-between",
-          !isCollapsed && "hidden md:flex"
+          !isCollapsed && "hidden xl:flex"
         )}
       >
         <div className="flex items-center gap-x-4">

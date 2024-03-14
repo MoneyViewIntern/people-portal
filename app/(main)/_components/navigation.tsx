@@ -23,6 +23,7 @@ import { useProfileEdit } from "@/hooks/use-profile-edit";
 import axios from "axios";
 
 import { PROFILE_IMAGE_URL } from "@/Constants/constants";
+import NavbarTitle from "./navbar-title";
 
 const fetchUserDetails = async (username: any) => {
   const { data } = await axios.get(
@@ -34,7 +35,7 @@ const fetchUserDetails = async (username: any) => {
 const Navigation = memo(() => {
   const { viewedUser, currentUser,currentUserDetails } = useAuthContext();
   const pathname = usePathname();
-  const isMobile = useMediaQuery("(max-width: 1234px)");
+  const isMobile = useMediaQuery("(max-width: 1200px)");
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
@@ -62,10 +63,9 @@ const Navigation = memo(() => {
     navbarRef.current.style.left = "0";
     setTimeout(() => setIsResetting(false), 300);
   }, [sidebarRef, navbarRef]);
-
+  
   const resetWidth = useCallback(() => {
     if (!sidebarRef.current || !navbarRef.current) return;
-
     setIsCollapsed(false);
     setIsResetting(true);
     sidebarRef.current.style.width = isMobile ? "100%" : "550px";
@@ -138,7 +138,7 @@ const Navigation = memo(() => {
           onClick={collapse}
           role="button"
           className={cn(
-            "h-7 w-7 mt-1 flex items-center justify-center text-muted-foreground rounded-lg hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+            "h-7 w-7 mt-1 flex items-center justify-center text-muted-foreground rounded-lg hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-50 group-hover/sidebar:opacity-100 transition",
             isMobile && "opacity-100"
           )}
         >
@@ -146,15 +146,7 @@ const Navigation = memo(() => {
         </div>
         <div className="h-full space-y-3">
           <div className="h-[56px] dark:bg-[#1f1f1f] flex items-center">
-            <div>
-              <img src="/images/logo.png" alt="logo" className="h-9 w-9 mx-2" />
-            </div>
-            <p
-              className="hidden sm:block font-black dark:drop-shadow-[0_0.9px_0.9px_rgba(0,140,0,0.8)] drop-shadow-[0_0.5px_0.5px_rgba(0,0,0,0.8)]
- text-green-600"
-            >
-              People Portal
-            </p>
+            <NavbarTitle />
           </div>
 
           <div className="flex justify-center">

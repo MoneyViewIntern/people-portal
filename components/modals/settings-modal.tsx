@@ -20,7 +20,10 @@ export const SettingsModal = () => {
   
   const handleProfileChange=()=>{
     if(viewedUser===currentUser) toast.error("Your profile is already selected")
-    else setViewedUser(currentUser);
+    else {
+  settings.onClose();
+  setViewedUser(currentUser);
+}
   };
 
   return (

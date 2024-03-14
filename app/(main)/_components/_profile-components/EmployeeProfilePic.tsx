@@ -16,7 +16,7 @@ interface EmployeeProfilePicProps {
 
 
 function convertArrayOfObjectsToCSV(data:any) {
-  const header = Object.keys(data[0]).filter(key => ['email', 'username', 'designation', 'level', 'phoneNo', 'slackId'].includes(key));
+  const header = Object.keys(data[0]).filter(key => ['email','name','username', 'designation', 'level', 'phoneNo', 'slackId'].includes(key));
   
   const csv = [
       header.join(','),

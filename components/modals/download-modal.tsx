@@ -22,7 +22,8 @@ export const DownloadModal = () => {
     const pdfUrl = file.url;
     const link = document.createElement("a");
     link.href = pdfUrl;
-    link.download = file.name; // specify the filename
+    link.download = file.name;
+    link.target="_blank" // specify the filename
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -39,7 +40,6 @@ export const DownloadModal = () => {
           <div key={index} className="flex items-center justify-between">
             <div className="flex flex-col gap-y-1">
               <span className="text-base">{file.name}</span>
-              <span className="text-[0.8rem] text-muted-foreground">File description goes here</span>
             </div>
             <Button onClick={()=>handleDownload(file)} variant="ghost" size="icon">
               {downloadingFile === file.url ? (

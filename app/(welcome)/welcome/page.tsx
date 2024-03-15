@@ -15,7 +15,7 @@ const WelcomePage = () => {
         // Redirect to login or another page if currentUser is not available
         router.push('/login');
       }
-    }, 2000);
+    }, 700);
     return () => clearTimeout(redirectTimer);
   }, [router, currentUser]);
 

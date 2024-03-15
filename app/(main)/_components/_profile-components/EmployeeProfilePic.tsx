@@ -40,7 +40,7 @@ function downloadCSV(data:any, filename:any) {
 }
 
 const handleReporteeDownload=async (username:any)=>{
-  const {data}=await axios.get(`http://localhost:8080/api/user/reportee/${username}`);
+  const {data}=await axios.get(`${process.env.SERVER_URL}/api/user/reportee/${username}`);
   downloadCSV(data,username);
 }
 

@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 //change api route to get user array
 const fetchUserList = async (tag_name : string)=>{
-  const resp = await axios.get(`http://localhost:8080/api/tags/${tag_name}`);
+  const resp = await axios.get(`${process.env.SERVER_URL}/api/tags/${tag_name}`);
   console.log(resp);
   return resp.data;
 }

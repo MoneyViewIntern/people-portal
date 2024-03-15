@@ -14,9 +14,9 @@ const UserPage = ({ params }: UsernamePageProps) => {
   const { isSignedIn,setViewedUser,currentUser } = useAuthContext();
 
   const apiCall = async () => {
-    var resp = await axios.get(`http://localhost:8080/api/user/manager/${params.username}`);
+    var resp = await axios.get(`${process.env.SERVER_URL}/api/user/manager/${params.username}`);
     if (!resp.data)
-      await axios.get(`http://localhost:8080/api/user/${params.username}`);
+      await axios.get(`${process.env.SERVER_URL}/api/user/${params.username}`);
     return resp.data;
   };
   useEffect(() => {

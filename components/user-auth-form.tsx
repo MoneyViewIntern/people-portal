@@ -22,7 +22,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:8080/login", {
+      const response = await axios.post(`${process.env.SERVER_URL}/login`, {
         username: username,
         password: password,
       });

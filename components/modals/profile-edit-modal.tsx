@@ -15,13 +15,13 @@ import { cn } from "@/lib/utils";
 
 
 const fetchAllTags=async ()=>{
-  const {data}=await axios.get('http://localhost:8080/api/tags/individual');
+  const {data}=await axios.get(`${process.env.SERVER_URL}/api/tags/individual`);
 
   return data;
 }
 
 const updateUserDetails= async (name:String,phoneNo:String,username:String)=>{
-  const resp= await axios.post('http://localhost:8080/api/user/update',{
+  const resp= await axios.post(`${process.env.SERVER_URL}/api/user/update`,{
   username,
   phoneNo,
   name
@@ -30,7 +30,7 @@ const updateUserDetails= async (name:String,phoneNo:String,username:String)=>{
 }
 
 const callAssignTags=async (tagName:String,username:String)=>{
-  const resp= await axios.post('http://localhost:8080/api/user/assign',{
+  const resp= await axios.post(`${process.env.SERVER_URL}/api/user/assign`,{
     username,
     tagName,
     type:"INDIVIDUAL"
@@ -39,7 +39,7 @@ const callAssignTags=async (tagName:String,username:String)=>{
 
 
 const callUnassignTags=async (tagName:String,username:String)=>{
-  const resp= await axios.post('http://localhost:8080/api/user/unassign',{
+  const resp= await axios.post(`${process.env.SERVER_URL}/api/user/unassign`,{
     username,
     tagName,
     type:"INDIVIDUAL"
@@ -66,7 +66,7 @@ export const ProfileEditModal = () => {
       const formData = new FormData();
       formData.append('displayImg', file);
       formData.append('username', currentUser);
-      const {data} = await axios.post('http://localhost:8080/api/upload/display', formData, {
+      const {data} = await axios.post(`${process.env.SERVER_URL}/api/upload/display`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

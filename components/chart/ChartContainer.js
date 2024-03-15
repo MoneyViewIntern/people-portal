@@ -90,7 +90,7 @@ const ChartContainer = forwardRef(
 
     const addChildNodes = async (node) => {
       const resp = await axios.get(
-        `http://localhost:8080/api/user/reportee/${node}`
+        `${process.env.SERVER_URL}/api/user/reportee/${node}`
       );
       console.log(resp.data);
       if (resp.data.length) await dsDigger.addChildren(node, resp.data);
@@ -106,7 +106,7 @@ const ChartContainer = forwardRef(
 
     const addRootNode = async (node) => {
       const resp = await axios.get(
-        `http://localhost:8080/api/user/manager/${node}`
+        `${process.env.SERVER_URL}/api/user/manager/${node}`
       );
       console.log(resp.data);
       if (resp.data) {

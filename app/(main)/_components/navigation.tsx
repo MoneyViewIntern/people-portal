@@ -27,7 +27,7 @@ import NavbarTitle from "./navbar-title";
 
 const fetchUserDetails = async (username: any) => {
   const { data } = await axios.get(
-    `http://localhost:8080/api/user/${username}`
+    `${process.env.SERVER_URL}/api/user/${username}`
   );
   return data;
 };

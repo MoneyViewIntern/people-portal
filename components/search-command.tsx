@@ -22,12 +22,12 @@ import { Button } from "./ui/button";
 import { DialogHeader } from "./ui/dialog";
 
 const fetchName = async (value: string) => {
-  const resp = await axios.get(`http://localhost:8080/api/search?e=${value}`);
+  const resp = await axios.get(`${process.env.SERVER_URL}/api/search?e=${value}`);
   console.log(resp);
   return resp.data;
 };
 const fetchTag = async (value: string) => {
-  const resp = await axios.get(`http://localhost:8080/api/search?t=${value}`);
+  const resp = await axios.get(`${process.env.SERVER_URL}/api/search?t=${value}`);
   console.log(resp);
   return resp.data;
 };

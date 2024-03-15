@@ -64,7 +64,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const fetchCurrentUserDetails = async (username: any) => {
     const { data } = await axios.get(
-      `http://localhost:8080/api/user/${username}`
+      `${process.env.SERVER_URL}/api/user/${username}`
     );
     // console.log("Fetched current user details");
     // console.log(data);

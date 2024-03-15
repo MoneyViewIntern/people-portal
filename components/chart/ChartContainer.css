@@ -20,6 +20,8 @@
   background-size: 1rem 1rem;
   border: 1px dashed rgba(0,0,0,0);
   padding: 20px 20px 0 20px;
+  margin-left: 25%;
+  width: 100%;
 }
 
 .orgchart-container .hidden {
